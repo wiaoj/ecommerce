@@ -15,9 +15,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{CB0607
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ecommerce.Application", "src\Application\ecommerce.Application\ecommerce.Application.csproj", "{E4B9EFD6-3C3B-4041-973C-402E0C10251C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ecommerce.Domain", "src\domain\ecommerce.Domain\ecommerce.Domain.csproj", "{E0DC846F-2B46-4C12-B644-AB54D44CA01B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ecommerce.Domain", "src\Domain\ecommerce.Domain\ecommerce.Domain.csproj", "{E0DC846F-2B46-4C12-B644-AB54D44CA01B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ecommerce.Infrastructure", "src\infrastructure\ecommerce.Infrastructure\ecommerce.Infrastructure.csproj", "{F90E76E7-2BEE-44A4-A73D-8F55E88DC2FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ecommerce.Infrastructure", "src\Infrastructure\ecommerce.Infrastructure\ecommerce.Infrastructure.csproj", "{F90E76E7-2BEE-44A4-A73D-8F55E88DC2FC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ecommerce.Contracts", "src\Presentation\ecommerce.Contracts\ecommerce.Contracts.csproj", "{0C74A06F-CF66-4047-91C5-558B70B5C686}"
 EndProject

@@ -15,7 +15,7 @@ internal sealed class LoginQueryHandler : IRequestHandler<LoginQuery, Authentica
     private readonly IRefreshTokenGenerator refreshTokenGenerator;
     private readonly IUserFactory userFactory;
     private readonly IDateTimeProvider dateTimeProvider;
-    private readonly ICurrentUserService currentUserService;
+    private readonly ICurrentUserProvider currentUserService;
     private readonly IPasswordHasher passwordHasher;
 
     public LoginQueryHandler(IUserRepository userRepository,
@@ -23,7 +23,7 @@ internal sealed class LoginQueryHandler : IRequestHandler<LoginQuery, Authentica
                              IRefreshTokenGenerator refreshTokenGenerator,
                              IUserFactory userFactory,
                              IDateTimeProvider dateTimeProvider,
-                             ICurrentUserService currentUserService,
+                             ICurrentUserProvider currentUserService,
                              IPasswordHasher passwordHasher) {
         this.userRepository = userRepository;
         this.jwtTokenGenerator = jwtTokenGenerator;
@@ -45,8 +45,8 @@ internal sealed class LoginQueryHandler : IRequestHandler<LoginQuery, Authentica
         String token = this.jwtTokenGenerator.GenerateJwtToken(user);
         String refreshTokenValue = this.refreshTokenGenerator.GenerateRefreshToken();
         RefreshToken refreshToken = this.userFactory.CreateRefreshToken(refreshTokenValue,
-                                                                        this.dateTimeProvider.Now,
-                                                                        this.dateTimeProvider.Now.AddMinutes(20),
+                                                                        this.dateTimeProvider.UtcNow,
+                                                                        this.dateTimeProvider.UtcNow.AddMinutes(20),
                                                                         this.currentUserService.UserIpAddress);
         user.AddRefreshToken(refreshToken);
         await this.userRepository.UpdateAsync(user, cancellationToken);

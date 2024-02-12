@@ -16,7 +16,7 @@ public sealed class RegisterCommandHandlerTests {
     private readonly IJwtTokenGenerator jwtTokenGenerator;
     private readonly IRefreshTokenGenerator refreshTokenGenerator;
     private readonly IDateTimeProvider dateTimeProvider;
-    private readonly ICurrentUserService currentUserService;
+    private readonly ICurrentUserProvider currentUserService;
 
     public RegisterCommandHandlerTests() {
         this.userFactory = Substitute.For<IUserFactory>();
@@ -24,7 +24,7 @@ public sealed class RegisterCommandHandlerTests {
         this.jwtTokenGenerator = Substitute.For<IJwtTokenGenerator>();
         this.refreshTokenGenerator = Substitute.For<IRefreshTokenGenerator>();
         this.dateTimeProvider = Substitute.For<IDateTimeProvider>();
-        this.currentUserService = Substitute.For<ICurrentUserService>();
+        this.currentUserService = Substitute.For<ICurrentUserProvider>();
         this.handler = new RegisterCommandHandler(this.userFactory,
                                              this.userRepository,
                                              this.jwtTokenGenerator,

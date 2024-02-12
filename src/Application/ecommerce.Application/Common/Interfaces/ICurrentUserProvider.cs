@@ -1,5 +1,5 @@
 namespace ecommerce.Application.Common.Interfaces;
-public interface ICurrentUserService {
+public interface ICurrentUserProvider {
     String UserId { get; }
     String UserName { get; }
     String UserIpAddress { get; }

@@ -5,9 +5,9 @@ using Microsoft.Extensions.Logging;
 namespace ecommerce.Application.Common.Behaviours;
 internal sealed class LoggingPostBehavior<TRequest, TResponse> : IRequestPostProcessor<TRequest, TResponse> where TRequest : notnull {
     private readonly ILogger<LoggingPostBehavior<TRequest, TResponse>> logger;
-    private readonly ICurrentUserService currentUserService;
+    private readonly ICurrentUserProvider currentUserService;
 
-    public LoggingPostBehavior(ILogger<LoggingPostBehavior<TRequest, TResponse>> logger, ICurrentUserService currentUserService) {
+    public LoggingPostBehavior(ILogger<LoggingPostBehavior<TRequest, TResponse>> logger, ICurrentUserProvider currentUserService) {
         this.logger = logger;
         this.currentUserService = currentUserService;
     }

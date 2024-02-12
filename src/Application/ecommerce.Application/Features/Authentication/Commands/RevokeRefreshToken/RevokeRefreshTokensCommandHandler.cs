@@ -1,17 +1,16 @@
 ﻿using ecommerce.Application.Common.Interfaces;
 using ecommerce.Application.Common.Repositories;
-using ecommerce.Application.Features.Authentication.Commands.RevokeRefreshToken;
 using ecommerce.Application.Features.Authentication.Exceptions;
 using ecommerce.Domain.Aggregates.UserAggregate;
 using ecommerce.Domain.Aggregates.UserAggregate.ValueObjects;
 using MediatR;
 
-namespace ecommerce.Application.Features.Authentication.Commands.RevokeRefreshTokens;
+namespace ecommerce.Application.Features.Authentication.Commands.RevokeRefreshToken;
 internal sealed class RevokeRefreshTokenCommandHandler : IRequestHandler<RevokeRefreshTokenCommand> {
-    private readonly ICurrentUserService currentUserService;
+    private readonly ICurrentUserProvider currentUserService;
     private readonly IUserRepository userRepository;
 
-    public RevokeRefreshTokenCommandHandler(ICurrentUserService currentUserService, IUserRepository userRepository) {
+    public RevokeRefreshTokenCommandHandler(ICurrentUserProvider currentUserService, IUserRepository userRepository) {
         this.currentUserService = currentUserService;
         this.userRepository = userRepository;
     }

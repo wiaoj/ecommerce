@@ -13,7 +13,7 @@ public sealed class DomainEventService : IDomainEventService {
     }
 
     public void AddEvents(IEnumerable<IDomainEvent> domainEvents) {
-        IEnumerable<IDomainEvent> eventsToAdd = this.events.Except(domainEvents);
+        IEnumerable<IDomainEvent> eventsToAdd = domainEvents.Except(this.events);
         this.events.AddRange(eventsToAdd);
     }
 

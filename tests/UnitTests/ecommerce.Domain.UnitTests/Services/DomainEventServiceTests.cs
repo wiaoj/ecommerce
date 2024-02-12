@@ -5,7 +5,7 @@ using NSubstitute;
 
 namespace ecommerce.Domain.UnitTests.Services;
 public class DomainEventServiceTests {
-    private readonly DomainEventService domainEventService;
+    private readonly IDomainEventService domainEventService;
     private readonly IDomainEvent domainEvent;
 
     public DomainEventServiceTests() {

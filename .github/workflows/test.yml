@@ -6,7 +6,7 @@ name: Test
 on:
   push:
   pull_request:
-    branches: [ "features" ]
+    branches: [ "master" ]
     paths:
     - '**.cs'
     - '**.csproj'

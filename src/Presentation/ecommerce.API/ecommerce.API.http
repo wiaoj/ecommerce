@@ -1,0 +1,23 @@
+@ecommerce.API_HostAddress = https://localhost:7069/api
+@parentCategoryId = 030019b0-1113-448f-b6af-e7fb4a174c7c
+
+Post {{ecommerce.API_HostAddress}}/v1/Categories
+Accept: application/json
+Content-Type: application/json
+{
+  "name": "Category"
+} 
+###
+
+Post {{ecommerce.API_HostAddress}}/v1/Categories
+Accept: application/json
+Content-Type: application/json
+{
+  "name": "Sub Category",
+  "parentCategoryId": "{{parentCategoryId}}"
+}
+###
+
+Get {{ecommerce.API_HostAddress}}/v1/Categories
+Accept: */* 
+###

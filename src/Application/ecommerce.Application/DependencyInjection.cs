@@ -22,6 +22,7 @@ public static class DependencyInjection {
 
                     configuration.AddOpenRequestPreProcessor(typeof(LoggingPreBehavior<>));
                     configuration.AddOpenRequestPreProcessor(typeof(IdempotencyBehavior<>));
+                    configuration.AddOpenRequestPreProcessor(typeof(AuthorizationBehavior<>));
                     configuration.AddOpenBehavior(typeof(DistributedCacheBehavior<,>));
                     configuration.AddOpenBehavior(typeof(ValidationBehavior<,>));
                     configuration.AddOpenBehavior(typeof(TransactionBehavior<,>));

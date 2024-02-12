@@ -4,7 +4,8 @@ public enum ErrorTypes {
     Unknown,
     Validation,
     NotFound,
-    Conflict
+    Conflict,
+    UnAuthorization
 }
 
 public static class ErrorTypeExtensions {

@@ -7,10 +7,10 @@ using MediatR;
 
 namespace ecommerce.Application.Features.Authentication.Commands.RevokeRefreshTokens;
 internal sealed class RevokeRefreshTokensCommandHandler : IRequestHandler<RevokeRefreshTokensCommand> {
-    private readonly ICurrentUserService currentUserService;
+    private readonly ICurrentUserProvider currentUserService;
     private readonly IUserRepository userRepository;
 
-    public RevokeRefreshTokensCommandHandler(ICurrentUserService currentUserService, IUserRepository userRepository) {
+    public RevokeRefreshTokensCommandHandler(ICurrentUserProvider currentUserService, IUserRepository userRepository) {
         this.currentUserService = currentUserService;
         this.userRepository = userRepository;
     }

@@ -1,5 +1,4 @@
 ﻿using ecommerce.Domain.Common.Exceptions;
-using WApplicationException = ecommerce.Domain.Common.Exceptions.WApplicationException;
 
 namespace ecommerce.Application.Exceptions;
 public sealed class ValidationException(IDictionary<String, String[]> errors) 

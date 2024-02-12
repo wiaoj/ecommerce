@@ -13,14 +13,14 @@ internal sealed class RefreshTokenLoginQueryHandler : IRequestHandler<RefreshTok
     private readonly IRefreshTokenGenerator refreshTokenGenerator;
     private readonly IUserFactory userFactory;
     private readonly IDateTimeProvider dateTimeProvider;
-    private readonly ICurrentUserService currentUserService;
+    private readonly ICurrentUserProvider currentUserService;
 
     public RefreshTokenLoginQueryHandler(IUserRepository userRepository,
                                          IJwtTokenGenerator jwtTokenGenerator,
                                          IRefreshTokenGenerator refreshTokenGenerator,
                                          IUserFactory userFactory,
                                          IDateTimeProvider dateTimeProvider,
-                                         ICurrentUserService currentUserService) {
+                                         ICurrentUserProvider currentUserService) {
         this.userRepository = userRepository;
         this.jwtTokenGenerator = jwtTokenGenerator;
         this.refreshTokenGenerator = refreshTokenGenerator;
@@ -36,8 +36,8 @@ internal sealed class RefreshTokenLoginQueryHandler : IRequestHandler<RefreshTok
         String token = this.jwtTokenGenerator.GenerateJwtToken(user);
         String refreshTokenValue = this.refreshTokenGenerator.GenerateRefreshToken();
         RefreshToken newRefreshToken = this.userFactory.CreateRefreshToken(refreshTokenValue,
-                                                                           this.dateTimeProvider.Now,
-                                                                           this.dateTimeProvider.Now.AddMinutes(20),
+                                                                           this.dateTimeProvider.UtcNow,
+                                                                           this.dateTimeProvider.UtcNow.AddMinutes(20),
                                                                            this.currentUserService.UserIpAddress);
         user.UpdateRefreshToken(request.RefreshToken, newRefreshToken);
         await this.userRepository.UpdateAsync(user, cancellationToken);

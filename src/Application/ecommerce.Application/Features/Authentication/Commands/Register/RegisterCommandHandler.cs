@@ -12,14 +12,14 @@ internal sealed class RegisterCommandHandler : IRequestHandler<RegisterCommand, 
     private readonly IJwtTokenGenerator jwtTokenGenerator;
     private readonly IRefreshTokenGenerator refreshTokenGenerator;
     private readonly IDateTimeProvider dateTimeProvider;
-    private readonly ICurrentUserService currentUserService;
+    private readonly ICurrentUserProvider currentUserService;
 
     public RegisterCommandHandler(IUserFactory userFactory,
                                   IUserRepository userRepository,
                                   IJwtTokenGenerator jwtTokenGenerator,
                                   IRefreshTokenGenerator refreshTokenGenerator,
                                   IDateTimeProvider dateTimeProvider,
-                                  ICurrentUserService currentUserService) {
+                                  ICurrentUserProvider currentUserService) {
         this.userFactory = userFactory;
         this.userRepository = userRepository;
         this.jwtTokenGenerator = jwtTokenGenerator;
@@ -38,8 +38,8 @@ internal sealed class RegisterCommandHandler : IRequestHandler<RegisterCommand, 
         String jwtToken = this.jwtTokenGenerator.GenerateJwtToken(user);
         String refreshTokenValue = this.refreshTokenGenerator.GenerateRefreshToken();
         RefreshToken refreshToken = this.userFactory.CreateRefreshToken(refreshTokenValue,
-                                                                        this.dateTimeProvider.Now,
-                                                                        this.dateTimeProvider.Now.AddMinutes(20),
+                                                                        this.dateTimeProvider.UtcNow,
+                                                                        this.dateTimeProvider.UtcNow.AddMinutes(20),
                                                                         this.currentUserService.UserIpAddress);
         user.AddRefreshToken(refreshToken);
         await this.userRepository.CreateAsync(user, cancellationToken);

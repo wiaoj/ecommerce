@@ -1,5 +1,4 @@
-﻿using ecommerce.Application.Common.Extensions;
-using ecommerce.Application.Common.Interfaces;
+﻿using ecommerce.Application.Common.Interfaces;
 using ecommerce.Domain.Aggregates.UserAggregate.ValueObjects;
 using ecommerce.Domain.Extensions;
 using ecommerce.Persistance;
@@ -35,7 +34,7 @@ internal sealed class IdentityService : IIdentityService {
             ?? throw new Exception("User not found");
 
         applicationUser.RefreshToken = refreshToken;
-        applicationUser.RefreshTokenEndDate = this.dateTimeProvider.Now.AddDays(30);
+        applicationUser.RefreshTokenEndDate = this.dateTimeProvider.UtcNow.AddDays(30);
         await this.userManager.UpdateAsync(applicationUser);
     }
 }

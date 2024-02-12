@@ -11,7 +11,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using OpenTelemetry;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
@@ -26,8 +25,8 @@ public static class DependencyInjection {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration) {
         AddOpenTelemetry(services);
 
-        services.AddTransient<ICurrentUserService, CurrentUserService>();
-        services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+        services.AddTransient<ICurrentUserProvider, CurrentUserProvider>();
+        services.AddSingleton<IDateTimeProvider, SystemDateTimeProvider>();
         services.AddScoped<IIdentityService, IdentityService>();
         services.AddSingleton<ICacheKeyGenerator, CacheKeyGenerator>();
         services.AddSingleton<IHashingProvider, HashingProvider>();
@@ -64,7 +63,7 @@ public static class DependencyInjection {
                     ValidIssuer = jwtSettings.Issuer,
                     ValidAudience = jwtSettings.Audience,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret)),
-                    LifetimeValidator = (_, expires, _, _) => expires is not null && expires > dateTimeProvider.Now,
+                    LifetimeValidator = (_, expires, _, _) => expires is not null && expires > dateTimeProvider.UtcNow,
                     NameClaimType = ClaimTypes.Name,
                 };
                 options.TokenValidationParameters = tokenValidationParameters;
@@ -95,10 +94,8 @@ public static class DependencyInjection {
                 .SetSampler(new AlwaysOnSampler())
                 .AddAspNetCoreInstrumentation(aspNetCoreOptions => {
                     aspNetCoreOptions.Filter = (context) => {
-                        if(string.IsNullOrEmpty(context.Request.Path.Value))
-                            return false;
-
-                        return context.Request.Path.Value.Contains("api", StringComparison.OrdinalIgnoreCase);
+                        return !String.IsNullOrEmpty(context.Request.Path.Value)
+&& context.Request.Path.Value.Contains("api", StringComparison.OrdinalIgnoreCase);
                     };
                 })
                 .AddEntityFrameworkCoreInstrumentation(efCoreOptions => {

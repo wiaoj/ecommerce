@@ -5,9 +5,9 @@ using Microsoft.Extensions.Logging;
 namespace ecommerce.Application.Common.Behaviours;
 internal sealed class LoggingPreBehavior<TRequest> : IRequestPreProcessor<TRequest> where TRequest : notnull {
     private readonly ILogger<LoggingPreBehavior<TRequest>> logger;
-    private readonly ICurrentUserService currentUserService;
+    private readonly ICurrentUserProvider currentUserService;
 
-    public LoggingPreBehavior(ILogger<LoggingPreBehavior<TRequest>> logger, ICurrentUserService currentUserService) {
+    public LoggingPreBehavior(ILogger<LoggingPreBehavior<TRequest>> logger, ICurrentUserProvider currentUserService) {
         this.logger = logger;
         this.currentUserService = currentUserService;
     }

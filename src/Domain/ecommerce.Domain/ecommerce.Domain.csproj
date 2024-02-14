@@ -9,7 +9,6 @@
     <ItemGroup>
         <Folder Include="Aggregates\CategoryAggregate\Entities\" />
         <Folder Include="Aggregates\ProductAggregate\Enums\" />
-        <Folder Include="Exceptions\Categories\" />
     </ItemGroup>
 
     <ItemGroup>

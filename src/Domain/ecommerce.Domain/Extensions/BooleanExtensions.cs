@@ -11,6 +11,10 @@ public static class BooleanExtensions {
 
     public static Boolean NotNull<T>([NotNullWhen(true)] this T? value) {
         return value is not null;
+    }  
+    
+    public static Boolean IsNull<T>([NotNullWhen(false)] this T? value) {
+        return value is null;
     }
     
     public static Boolean IsNot<T>(this T left, T right) {

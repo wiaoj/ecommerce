@@ -1,6 +1,7 @@
 using ecommerce.Application.UnitTests.TestUtils.Extensions;
 using ecommerce.Domain.Aggregates.CategoryAggregate;
 using ecommerce.Domain.Aggregates.CategoryAggregate.ValueObjects;
+using ecommerce.UnitTests.Common.Categories;
 
 namespace ecommerce.Application.UnitTests.TestUtils.Constants;
 public static partial class Constants {
@@ -23,11 +24,7 @@ public static partial class Constants {
         public readonly static Int32 ChildCount = Random.Shared.Next(MinimumChildCount, MaximumChildCount);
 
         public static CategoryAggregate CreateValidCategory() {
-            return new(null, CategoryId.Create(Id), CategoryName.Create(Name), []);
-        }
-
-        public static CategoryAggregate ValidCategory(Guid parentCategoryId) {
-            return new(CategoryId.Create(parentCategoryId), CategoryId.Create(Id), CategoryName.Create(Name), []);
+            return CategoryTestFactory.CreateValidCategoryAggregate();
         }
     }
 }

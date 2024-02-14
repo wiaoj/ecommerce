@@ -20,11 +20,12 @@ public sealed class CategoryAggregate : AggregateRoot<CategoryId, Guid> {
     internal CategoryAggregate(CategoryId? parentId,
                                CategoryId categoryId,
                                CategoryName name,
-                               List<CategoryId> subcategoryIds) : base(categoryId) {
+                               List<CategoryId> subcategoryIds,
+                               List<ProductId> productIds) : base(categoryId) {
         this.ParentId = parentId;
         this.Name = name;
         this.subcategoryIds = subcategoryIds;
-        this.productIds ??= [];
+        this.productIds = productIds;
     }
 
     /// <summary>
@@ -74,13 +75,13 @@ public sealed class CategoryAggregate : AggregateRoot<CategoryId, Guid> {
     /// Adds a child category to the current category.
     /// <list type="table">
     /// Raises;
-    /// <see cref="ChildCategoryAddedDomainEvent"/> 
+    /// <see cref="SubcategoryAddedDomainEvent"/> 
     /// </list>
     /// </summary>
     /// <param name="categoryId">The ID of the child category to add.</param>
     /// <exception cref="SelfReferencingCategoryException" />
     /// <exception cref="SubcategoryAlreadyExistsException" />
-    public void AddChildCategory(CategoryId categoryId) {
+    public void AddSubcategory(CategoryId categoryId) {
         ArgumentNullException.ThrowIfNull(categoryId);
 
         if(this.Id == categoryId)
@@ -90,7 +91,7 @@ public sealed class CategoryAggregate : AggregateRoot<CategoryId, Guid> {
             throw new SubcategoryAlreadyExistsException();
 
         this.subcategoryIds.Add(categoryId);
-        RaiseDomainEvent(new ChildCategoryAddedDomainEvent(this.Id, categoryId));
+        RaiseDomainEvent(new SubcategoryAddedDomainEvent(this.Id, categoryId));
     }
 
     /// <summary>
@@ -99,11 +100,11 @@ public sealed class CategoryAggregate : AggregateRoot<CategoryId, Guid> {
     /// <param name="categoryIds">A collection of child category IDs to add.</param>
     /// <exception cref="SelfReferencingCategoryException" /> 
     /// <exception cref="SubcategoryAlreadyExistsException" /> 
-    public void AddSubCategory(IEnumerable<CategoryId> categoryIds) {
+    public void AddSubcategory(IEnumerable<CategoryId> categoryIds) {
         ArgumentNullException.ThrowIfNull(categoryIds);
 
         foreach(CategoryId categoryId in categoryIds)
-            AddChildCategory(categoryId);
+            AddSubcategory(categoryId);
     }
 
     /// <summary>
@@ -111,11 +112,13 @@ public sealed class CategoryAggregate : AggregateRoot<CategoryId, Guid> {
     /// </summary>
     /// <param name="categoryId">The ID of the child category to remove.</param>
     /// <exception cref="SubcategoryNotFoundException" />
-    public void RemoveSubCategory(CategoryId categoryId) {
+    public void RemoveSubcategory(CategoryId categoryId) {
         ArgumentNullException.ThrowIfNull(categoryId);
 
         if(this.subcategoryIds.Remove(categoryId).IsFalse())
             throw new SubcategoryNotFoundException(categoryId);
+
+        RaiseDomainEvent(new SubcategoryRemovedDomainEvent(this.Id, categoryId));
     }
 
     /// <summary>
@@ -123,11 +126,11 @@ public sealed class CategoryAggregate : AggregateRoot<CategoryId, Guid> {
     /// </summary>
     /// <param name="categoryIds">A collection of child category IDs to remove.</param>
     /// <exception cref="SubcategoryNotFoundException" />
-    public void RemoveSubCategory(IEnumerable<CategoryId> categoryIds) {
+    public void RemoveSubcategory(IEnumerable<CategoryId> categoryIds) {
         ArgumentNullException.ThrowIfNull(categoryIds);
 
         foreach(CategoryId categoryId in categoryIds)
-            RemoveSubCategory(categoryId);
+            RemoveSubcategory(categoryId);
     }
 
     /// <summary>
@@ -141,16 +144,15 @@ public sealed class CategoryAggregate : AggregateRoot<CategoryId, Guid> {
     /// <exception cref="ProductAlreadyInCategoryException" />
     public void AddProduct(ProductId productId) {
         ArgumentNullException.ThrowIfNull(productId);
-        RemoveSubCategory([]);
+
         if(this.productIds.Contains(productId))
             throw new ProductAlreadyInCategoryException(productId);
 
         this.productIds.Add(productId);
-
-        RaiseDomainEvent(new ProductAddedToCategoryDomainEvent(productId, this.Id));
+        RaiseDomainEvent(new ProductAddedToCategoryDomainEvent(this.Id, productId));
     }
 
-    /// <summary>
+    /// <summary> 
     /// Removes a product from the current category.
     /// <list type="table">
     /// Raises; <br />
@@ -165,7 +167,7 @@ public sealed class CategoryAggregate : AggregateRoot<CategoryId, Guid> {
         if(this.productIds.Remove(productId).IsFalse())
             throw new ProductNotInCategoryException(productId);
 
-        RaiseDomainEvent(new ProductRemovedFromCategoryDomainEvent(productId, this.Id));
+        RaiseDomainEvent(new ProductRemovedFromCategoryDomainEvent(this.Id, productId));
     }
 
     /// <summary>

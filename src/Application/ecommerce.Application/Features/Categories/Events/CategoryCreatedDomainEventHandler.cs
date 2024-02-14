@@ -30,7 +30,7 @@ internal class CategoryCreatedDomainEventHandler : INotificationHandler<Category
 
         CategoryAggregate? parentCategory = await this.categoryRepository.FindByIdAsync(parentId, cancellationToken);
         this.guardClause.ThrowIfNull(parentCategory, new CategoryNotFoundException(parentId));
-        parentCategory.AddChildCategory(id);
+        parentCategory.AddSubcategory(id);
         await this.categoryRepository.UpdateAsync(parentCategory, cancellationToken);
     }
 }

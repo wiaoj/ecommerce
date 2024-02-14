@@ -29,7 +29,7 @@ internal sealed class CategoryDeletedDomainEventHandler : INotificationHandler<C
 
         CategoryAggregate? parentCategory = await this.categoryRepository.FindByIdAsync(notification.Category.ParentId, cancellationToken);
         this.guardClause.ThrowIfNull(parentCategory, new CategoryNotFoundException(notification.Category.ParentId));
-        parentCategory.RemoveSubCategory(notification.Category.Id);
+        parentCategory.RemoveSubcategory(notification.Category.Id);
     }
 
     private async Task DetachChildrenFromDeletedCategory(CategoryDeletedDomainEvent notification, CancellationToken cancellationToken) {

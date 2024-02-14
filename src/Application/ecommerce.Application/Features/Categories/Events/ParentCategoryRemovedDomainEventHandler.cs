@@ -18,6 +18,6 @@ internal sealed class ParentCategoryRemovedDomainEventHandler : INotificationHan
     public async Task Handle(ParentCategoryRemovedDomainEvent notification, CancellationToken cancellationToken) {
         CategoryAggregate? parentCategory = await this.categoryRepository.FindByIdAsync(notification.ParentId, cancellationToken);
         this.guardClause.ThrowIfNull(parentCategory, new CategoryNotFoundException(notification.ParentId));
-        parentCategory.RemoveSubCategory(notification.CategoryId);
+        parentCategory.RemoveSubcategory(notification.CategoryId);
     }
 }

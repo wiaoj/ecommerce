@@ -4,7 +4,7 @@ namespace ecommerce.Domain.Aggregates.ProductAggregate.ValueObjects;
 public sealed record ProductId : AggregateRootId<Guid>
 {
     private ProductId() { }
-    private ProductId(Guid value) : base(value) { }
+    internal ProductId(Guid value) : base(value) { }
 
     public static ProductId CreateUnique => new(Guid.NewGuid());
 

@@ -3,7 +3,7 @@
 namespace ecommerce.Domain.Aggregates.CategoryAggregate.ValueObjects;
 public sealed record CategoryId : AggregateRootId<Guid> {
     private CategoryId() { }
-    private CategoryId(Guid value) : base(value) { }
+    internal CategoryId(Guid value) : base(value) { }
 
     public static CategoryId CreateUnique => new(Guid.NewGuid());
 

@@ -1,4 +1,4 @@
-﻿using ecommerce.Application.Common.Interfaces;
+﻿using ecommerce.Domain.Common;
 
 namespace ecommerce.Infrastructure.Services;
 internal sealed class SystemDateTimeProvider : IDateTimeProvider {

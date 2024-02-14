@@ -10,7 +10,7 @@ public static class CategoryTestFactory {
             .CustomInstantiator(faker => new CategoryAggregate(
                 null,
                 CategoryId.CreateUnique,
-                CategoryName.Create(faker.Commerce.Categories(1).First()),
+                new CategoryName(faker.Commerce.Categories(1).First()),
                 []
             ));
         return userFaker.Generate();

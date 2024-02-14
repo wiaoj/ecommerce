@@ -5,6 +5,7 @@ using ecommerce.Domain.Aggregates.UserAggregate;
 using MediatR;
 using ecommerce.Application.Common.Repositories;
 using ecommerce.Application.Features.Authentication.Exceptions;
+using ecommerce.Domain.Common;
 
 namespace ecommerce.Application.Features.Authentication.Queries.RefreshTokenLogin;
 internal sealed class RefreshTokenLoginQueryHandler : IRequestHandler<RefreshTokenLoginQuery, AuthenticationResponse> {

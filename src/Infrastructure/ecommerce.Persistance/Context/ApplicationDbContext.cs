@@ -4,35 +4,30 @@ using ecommerce.Domain.Aggregates.ProductAggregate;
 using ecommerce.Domain.Aggregates.UserAggregate;
 using ecommerce.Domain.Aggregates.VariantAggregate;
 using ecommerce.Domain.Common;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using ecommerce.Persistance.EntityConfigurations;
+using ecommerce.Persistance.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace ecommerce.Persistance.Context;
-public sealed class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationUserRole, Guid>, IDomainEventProvider, IUnitOfWork {
+public sealed class ApplicationDbContext : DbContext, IDomainEventProvider, IUnitOfWork {
+    private readonly IFactoryInjector factoryInjector;
+
     public DbSet<CategoryAggregate> Categories => Set<CategoryAggregate>();
     public DbSet<ProductAggregate> Products => Set<ProductAggregate>();
     public DbSet<VariantAggregate> Variants => Set<VariantAggregate>();
     public DbSet<UserAggregate> ApplicationUser => Set<UserAggregate>();
 
-    public ApplicationDbContext(DbContextOptions options) : base(options) { }
+    public ApplicationDbContext(DbContextOptions options, IFactoryInjector factoryInjector) : base(options) {
+        this.factoryInjector = factoryInjector;
+    }
 
-    protected override void OnModelCreating(ModelBuilder builder) {
-        builder
+    protected override void OnModelCreating(ModelBuilder modelBuilder) {
+        modelBuilder
             .Ignore<List<IDomainEvent>>()
-            .ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
-
-        builder.Entity<ApplicationUser>()
-            .HasOne<UserAggregate>()
-            .WithOne()
-            .HasForeignKey<ApplicationUser>(user => user.UserId)
-            .IsRequired();
-
-        builder.Entity<ApplicationUser>()
-            .HasIndex(x => x.UserId)
-            .IsUnique();
-
-        base.OnModelCreating(builder);
+            .ApplyEntityConfigurations(factoryInjector);
+            //.UsePropertyAccessMode(PropertyAccessMode.PreferFieldDuringConstruction);
+        base.OnModelCreating(modelBuilder);
     }
 
     async Task IUnitOfWork.SaveChangesAsync(CancellationToken cancellationToken) {

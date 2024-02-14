@@ -4,6 +4,7 @@ using ecommerce.Application.Features.Authentication.Common;
 using ecommerce.Application.Features.Authentication.MappingExtensions;
 using ecommerce.Domain.Aggregates.UserAggregate;
 using ecommerce.Domain.Aggregates.UserAggregate.ValueObjects;
+using ecommerce.Domain.Common;
 using MediatR;
 
 namespace ecommerce.Application.Features.Authentication.Commands.Register;

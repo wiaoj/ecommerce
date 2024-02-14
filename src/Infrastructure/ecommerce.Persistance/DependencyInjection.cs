@@ -1,7 +1,9 @@
 ﻿using ecommerce.Application.Common.Interfaces;
 using ecommerce.Application.Common.Repositories;
 using ecommerce.Persistance.Context;
+using ecommerce.Persistance.Context.Interceptors;
 using ecommerce.Persistance.Repositories;
+using MediatR.Registration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -13,7 +15,9 @@ using Microsoft.Extensions.DependencyInjection;
 namespace ecommerce.Persistance;
 public static class DependencyInjection {
     public static IServiceCollection AddPersistanceServices(this IServiceCollection services, IConfiguration configuration) {
-        services.AddDbContextPool<ApplicationDbContext>(options => {
+        services.AddSingleton<IFactoryInjector, FactoryInjector>();
+        services.AddSingleton<TrackableInterceptor>();
+        services.AddDbContextPool<ApplicationDbContext>((serviceProvider, options) => {
 #if RELEASE
             options.UseInMemoryDatabase("ecommerce-development", options => {
                 options.EnableNullChecks(true);
@@ -21,32 +25,16 @@ public static class DependencyInjection {
 #else
             options.UseSqlServer(configuration.GetConnectionString("MsSQL"),
                  sqlServerOptions => {
-                     sqlServerOptions.EnableRetryOnFailure(
-                         3,
-                         TimeSpan.FromSeconds(10),
-                         null);
+                     sqlServerOptions.EnableRetryOnFailure(3, TimeSpan.FromSeconds(10), null);
                      String? migrationAssemblyName = typeof(ApplicationDbContext).Assembly.GetName().Name;
-                     sqlServerOptions.MigrationsAssembly(migrationAssemblyName);
-                     sqlServerOptions.MigrationsHistoryTable(
-                         tableName: HistoryRepository.DefaultTableName,
-                         schema: "ecommerce");
+                     sqlServerOptions.MigrationsAssembly(migrationAssemblyName)
+                     .MigrationsHistoryTable(tableName: HistoryRepository.DefaultTableName, schema: "ecommerce");
 
-                 });
+                 }).AddInterceptors(serviceProvider.GetRequiredService<TrackableInterceptor>());
             //options.UseSnakeCaseNamingConvention(new CultureInfo(1));
 #endif
         }, poolSize: 1024);
 
-        services.AddIdentityCore<ApplicationUser>(options => {
-            options.Password.RequireNonAlphanumeric = false;
-            options.Password.RequireDigit = false;
-            options.Password.RequireUppercase = false;
-            options.Password.RequireLowercase = false;
-            options.Password.RequiredLength = 6;
-            options.User.RequireUniqueEmail = true;
-        })
-            .AddRoles<ApplicationUserRole>()
-            .AddRoleManager<RoleManager<ApplicationUserRole>>()
-            .AddEntityFrameworkStores<ApplicationDbContext>();
 
         services.AddScoped<IDomainEventProvider>(serviceProvider => serviceProvider.GetRequiredService<ApplicationDbContext>());
         services.AddScoped<IUnitOfWork>(serviceProvider => serviceProvider.GetRequiredService<ApplicationDbContext>());
@@ -56,9 +44,7 @@ public static class DependencyInjection {
         services.AddScoped<IUserRepository, UserRepository>();
 
         {
-            ServiceProvider serviceProvider = services.BuildServiceProvider();
-
-            ApplicationDbContext applicationDbContext = serviceProvider.GetRequiredService<ApplicationDbContext>();
+            ApplicationDbContext applicationDbContext = services.GetServiceProvider().GetRequiredService<ApplicationDbContext>();
 
             DatabaseFacade databaseFacade = applicationDbContext.Database;
 
@@ -74,5 +60,9 @@ public static class DependencyInjection {
             }
         }
         return services;
+    }
+
+    private static IServiceProvider GetServiceProvider(this IServiceCollection services) {
+        return services.BuildServiceProvider();
     }
 }

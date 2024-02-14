@@ -1,4 +1,4 @@
-﻿namespace ecommerce.Application.Common.Interfaces;
+﻿namespace ecommerce.Domain.Common;
 public interface IDateTimeProvider {
     public DateTime UtcNow { get; }
 }

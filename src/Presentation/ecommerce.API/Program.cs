@@ -57,8 +57,8 @@ builder.Services.ConfigureHttpJsonOptions(jsonOptions => {
 });
 
 builder.Services.AddApplicationServices()
-                .AddPersistanceServices(builder.Configuration)
-                .AddInfrastructureServices(builder.Configuration);
+                .AddInfrastructureServices(builder.Configuration)
+                .AddPersistanceServices(builder.Configuration);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

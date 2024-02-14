@@ -1,9 +1,9 @@
 ﻿using ecommerce.Application.Common.Interfaces;
 using ecommerce.Domain.Aggregates.UserAggregate;
+using ecommerce.Domain.Common;
 using ecommerce.Infrastructure.Settings;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;

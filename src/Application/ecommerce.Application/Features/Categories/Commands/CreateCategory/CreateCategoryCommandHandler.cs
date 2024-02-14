@@ -15,7 +15,7 @@ internal sealed class CreateCategoryCommandHandler : IRequestHandler<CreateCateg
     }
 
     public async Task<CreateCategoryCommandResult> Handle(CreateCategoryCommand request, CancellationToken cancellationToken) {
-        CategoryAggregate category = request.ToFromCreateCommand(this.categoryFactory);
+        CategoryAggregate category = this.categoryFactory.FromCreateCommand(request);
         await this.categoryRepository.CreateAsync(category, cancellationToken);
         return category.ToCreateCommandResult();
     }

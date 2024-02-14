@@ -2,14 +2,14 @@
 using ecommerce.Domain.Aggregates.CategoryAggregate;
 
 namespace ecommerce.Application.Features.Categories.MappingExtensions;
-internal static class CreateCategoryExtension {
+public static class CreateCategoryExtension {
     public static CreateCategoryCommandResult ToCreateCommandResult(this CategoryAggregate category) {
         return new(category.Id,
                    category.ParentId,
                    category.Name.Value);
     }
 
-    public static CategoryAggregate ToFromCreateCommand(this CreateCategoryCommand createCategoryCommand, ICategoryFactory categoryFactory) {
-        return categoryFactory.Create(createCategoryCommand.ParentCategoryId, createCategoryCommand.Name);
+    public static CategoryAggregate FromCreateCommand(this ICategoryFactory categoryFactory, CreateCategoryCommand command) {
+        return categoryFactory.Create(command.ParentCategoryId, command.Name);
     }
 }

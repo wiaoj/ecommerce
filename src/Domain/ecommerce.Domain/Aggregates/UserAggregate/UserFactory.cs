@@ -35,7 +35,10 @@ public sealed class UserFactory : IUserFactory {
         return new(phoneNumber);
     }
 
-    public RefreshToken CreateRefreshToken(String token, DateTime created, DateTime expires, String createdByIp) {
+    public RefreshToken CreateRefreshToken(String token,
+                                           DateTime created,
+                                           DateTime expires,
+                                           String createdByIp) {
         return new(token, created, expires, createdByIp);
     }
 }

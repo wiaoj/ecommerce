@@ -5,6 +5,8 @@ public sealed record Password {
 
     private Password() { }
     internal Password(String hashedValue, String salt) {
+        ArgumentException.ThrowIfNullOrEmpty(hashedValue);
+        ArgumentException.ThrowIfNullOrEmpty(salt);
         this.HashedValue = hashedValue;
         this.Salt = salt;
     }

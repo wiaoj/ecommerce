@@ -1,8 +1,8 @@
 ﻿namespace ecommerce.Domain.Aggregates.UserAggregate.ValueObjects;
 public sealed record FullName {
-    public String FirstName { get; }
-    public List<String> MiddleNames { get; } = [];
-    public String LastName { get; }
+    public String FirstName { get; private set; }
+    public List<String> MiddleNames { get; private set; } = [];
+    public String LastName { get; private set; }
 
     private FullName() { }
     internal FullName(String firstName, IEnumerable<String>? middleNames, String lastName) {

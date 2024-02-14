@@ -7,33 +7,35 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7DA9EB62-484
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{F58FBF42-5C4C-4133-BE37-251DC076C9C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ecommerce.Application", "src\Application\ecommerce.Application\ecommerce.Application.csproj", "{322AD68D-6103-4EA4-B3A6-9466480C6570}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ecommerce.Application", "src\Application\ecommerce.Application\ecommerce.Application.csproj", "{322AD68D-6103-4EA4-B3A6-9466480C6570}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{18FA6F12-B5B1-47BC-8C4E-2E22D52ACFD7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ecommerce.Domain", "src\Domain\ecommerce.Domain\ecommerce.Domain.csproj", "{56021D08-EDB6-4F70-8267-EFDC12D8BB1B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ecommerce.Domain", "src\Domain\ecommerce.Domain\ecommerce.Domain.csproj", "{56021D08-EDB6-4F70-8267-EFDC12D8BB1B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ecommerce.Domain.Guard", "src\Domain\ecommerce.Domain.Guard\ecommerce.Domain.Guard.csproj", "{19BF0DF2-275B-48D2-A143-B67F9C466DB5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ecommerce.Domain.Guard", "src\Domain\ecommerce.Domain.Guard\ecommerce.Domain.Guard.csproj", "{19BF0DF2-275B-48D2-A143-B67F9C466DB5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{9B9D0985-B865-4579-8F46-5E1DB09DD228}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ecommerce.Infrastructure", "src\Infrastructure\ecommerce.Infrastructure\ecommerce.Infrastructure.csproj", "{2786EAF7-4355-459B-B031-BDB9A18F3FEE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ecommerce.Infrastructure", "src\Infrastructure\ecommerce.Infrastructure\ecommerce.Infrastructure.csproj", "{2786EAF7-4355-459B-B031-BDB9A18F3FEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ecommerce.Persistance", "src\Infrastructure\ecommerce.Persistance\ecommerce.Persistance.csproj", "{BD179A34-8583-431F-90B4-73CC07B25FBE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ecommerce.Persistance", "src\Infrastructure\ecommerce.Persistance\ecommerce.Persistance.csproj", "{BD179A34-8583-431F-90B4-73CC07B25FBE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{3B15DB17-4C1B-4AAA-9A78-05E0FE13D8BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ecommerce.API", "src\Presentation\ecommerce.API\ecommerce.API.csproj", "{DDC39320-7AFF-4B52-AB1A-9639B89EE59C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ecommerce.API", "src\Presentation\ecommerce.API\ecommerce.API.csproj", "{DDC39320-7AFF-4B52-AB1A-9639B89EE59C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ecommerce.Contracts", "src\Presentation\ecommerce.Contracts\ecommerce.Contracts.csproj", "{00073BDB-D3C8-43AF-AA31-0A851C2534C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ecommerce.Contracts", "src\Presentation\ecommerce.Contracts\ecommerce.Contracts.csproj", "{00073BDB-D3C8-43AF-AA31-0A851C2534C0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{094F00C1-D130-4ADE-9768-D9DE38488612}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{BA4570E9-8B00-41B5-AFB1-0460EEF476F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ecommerce.Application.UnitTests", "tests\UnitTests\ecommerce.Application.UnitTests\ecommerce.Application.UnitTests.csproj", "{E5E05418-D703-4B54-9534-5F3A83994A4B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ecommerce.Application.UnitTests", "tests\UnitTests\ecommerce.Application.UnitTests\ecommerce.Application.UnitTests.csproj", "{E5E05418-D703-4B54-9534-5F3A83994A4B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ecommerce.Domain.UnitTests", "tests\UnitTests\ecommerce.Domain.UnitTests\ecommerce.Domain.UnitTests.csproj", "{53B7F85A-2F24-43F7-B240-72289AD24B22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ecommerce.Domain.UnitTests", "tests\UnitTests\ecommerce.Domain.UnitTests\ecommerce.Domain.UnitTests.csproj", "{53B7F85A-2F24-43F7-B240-72289AD24B22}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ecommerce.UnitTests.Common", "tests\UnitTests\ecommerce.UnitTests.Common\ecommerce.UnitTests.Common.csproj", "{EF1AC96B-25E4-48D0-8DC4-A65EF75A4BA6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,12 +79,13 @@ Global
 		{53B7F85A-2F24-43F7-B240-72289AD24B22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53B7F85A-2F24-43F7-B240-72289AD24B22}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53B7F85A-2F24-43F7-B240-72289AD24B22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF1AC96B-25E4-48D0-8DC4-A65EF75A4BA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF1AC96B-25E4-48D0-8DC4-A65EF75A4BA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF1AC96B-25E4-48D0-8DC4-A65EF75A4BA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF1AC96B-25E4-48D0-8DC4-A65EF75A4BA6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {73CAFA5A-1D97-4630-A940-95E266AE5C96}
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F58FBF42-5C4C-4133-BE37-251DC076C9C4} = {7DA9EB62-4846-4473-A908-7097E0F26EAA}
@@ -99,5 +102,9 @@ Global
 		{BA4570E9-8B00-41B5-AFB1-0460EEF476F0} = {094F00C1-D130-4ADE-9768-D9DE38488612}
 		{E5E05418-D703-4B54-9534-5F3A83994A4B} = {BA4570E9-8B00-41B5-AFB1-0460EEF476F0}
 		{53B7F85A-2F24-43F7-B240-72289AD24B22} = {BA4570E9-8B00-41B5-AFB1-0460EEF476F0}
+		{EF1AC96B-25E4-48D0-8DC4-A65EF75A4BA6} = {BA4570E9-8B00-41B5-AFB1-0460EEF476F0}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {73CAFA5A-1D97-4630-A940-95E266AE5C96}
 	EndGlobalSection
 EndGlobal

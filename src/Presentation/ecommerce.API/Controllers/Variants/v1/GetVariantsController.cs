@@ -7,8 +7,9 @@ public partial class VariantsController : BaseController {
     [HttpGet]
     [Route("/api/v{version:apiVersion}/variants")]
     public async Task<IActionResult> GetVariants(CancellationToken cancellationToken) {
-        VariantsQuery query = new();
-        return Ok(await this.Sender.Send(query, cancellationToken));
+        //VariantsQuery query = new();
+        //return Ok(await this.Sender.Send(query, cancellationToken));
+        return Ok();
     }
 
     [HttpGet]

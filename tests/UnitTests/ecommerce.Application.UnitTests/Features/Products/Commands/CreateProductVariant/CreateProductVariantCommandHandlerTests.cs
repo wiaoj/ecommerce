@@ -10,26 +10,22 @@ using ecommerce.Domain.Aggregates.VariantAggregate.ValueObjects;
 using Moq;
 
 namespace ecommerce.Application.UnitTests.Features.Products.Commands.CreateProductVariant;
-public sealed class CreateProductVariantCommandHandlerTests
-{
+public sealed class CreateProductVariantCommandHandlerTests {
     private readonly CreateProductVariantCommandHandler handler;
-    private readonly Mock<IProductRepository> productRepository;
-    private readonly Mock<IProductFactory> productFactory;
-    private readonly Mock<IGuardClause> guardClause;
+    private readonly IProductRepository productRepository;
+    private readonly IProductFactory productFactory;
+    private readonly IGuardClause guardClause;
 
-    public CreateProductVariantCommandHandlerTests()
-    {
-        productRepository = new Mock<IProductRepository>();
-        productFactory = new Mock<IProductFactory>();
-        guardClause = new Mock<IGuardClause>();
-        handler = new(productFactory.Object, productRepository.Object, guardClause.Object);
+    public CreateProductVariantCommandHandlerTests() {
+        this.productRepository = Substitute.For<IProductRepository>();
+        this.productFactory = Substitute.For<IProductFactory>();
+        this.guardClause = Substitute.For<IGuardClause>();
+        this.handler = new(this.productFactory, this.productRepository, this.guardClause);
     }
 
     [Theory]
     [MemberData(nameof(ValidCreateProductVariantCommands))]
-    public async Task HandleCreateProductVariantCommand_WhenProductVariantIsValid_ShouldCreateAndReturnProductVariant(
-    CreateProductVariantCommand command)
-    {
+    public async Task HandleCreateProductVariantCommand_WhenProductVariantIsValid_ShouldCreateAndReturnProductVariant(CreateProductVariantCommand command) {
         // Arrange
         ProductAggregate existingProduct = new(
             ProductId.Create(command.ProductId),
@@ -38,8 +34,8 @@ public sealed class CreateProductVariantCommandHandlerTests
             ProductDescription.Create("Test Description"),
             []);
 
-        productRepository.Setup(repo => repo.FindByIdAsync(command.ProductId, It.IsAny<CancellationToken>()))
-                         .ReturnsAsync(existingProduct);
+        this.productRepository.FindByIdAsync(command.ProductId, Arg.Any<CancellationToken>())
+                         .Returns(existingProduct);
 
         ProductVariantEntity newVariant = new(
             ProductVariantId.CreateUnique,
@@ -49,30 +45,27 @@ public sealed class CreateProductVariantCommandHandlerTests
             ProductVariantPrice.Create(command.Price),
             command.Options.Select(VariantOptionId.Create).ToList());
 
-        productFactory.Setup(factory => factory.CreateVariant(
-            command.ProductId,
-            command.Stock,
-            command.Price,
-            command.Options))
-                      .Returns(newVariant);
+        this.productFactory.CreateVariant(command.ProductId,
+                                          command.Stock,
+                                          command.Price,
+                                          command.Options)
+            .Returns(newVariant);
 
         // Act
-        await handler.Handle(command, It.IsAny<CancellationToken>());
+        await this.handler.Handle(command, It.IsAny<CancellationToken>());
 
         // Assert
-        productRepository.Verify(repo => repo.UpdateAsync(It.IsAny<ProductAggregate>(), It.IsAny<CancellationToken>()), Times.Once);
-        productFactory.Verify(factory => factory.CreateVariant(
-            command.ProductId,
-            command.Stock,
-            command.Price,
-            command.Options), Times.Once);
+        await this.productRepository.Received(1).UpdateAsync(Arg.Any<ProductAggregate>(), Arg.Any<CancellationToken>());
+        this.productFactory.Received(1).CreateVariant(command.ProductId,
+                                                      command.Stock,
+                                                      command.Price,
+                                                      command.Options);
 
         // Additional assertions to verify that the variant was added to the product
-        Assert.Contains(newVariant, existingProduct.Variants);
+        existingProduct.Variants.Should().Contain(newVariant);
     }
 
-    public static IEnumerable<object[]> ValidCreateProductVariantCommands()
-    {
+    public static IEnumerable<Object[]> ValidCreateProductVariantCommands() {
         yield return new[] { CreateProductVariantCommandUtils.CreateVariantCommand() };
     }
 }

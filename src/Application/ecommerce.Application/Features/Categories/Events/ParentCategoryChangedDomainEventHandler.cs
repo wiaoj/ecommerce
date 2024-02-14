@@ -20,6 +20,6 @@ internal sealed class ParentCategoryChangedDomainEventHandler : INotificationHan
         CategoryId parentCategoryId = CategoryId.Create(notification.ParentId);
         CategoryAggregate? parentCategory = await this.categoryRepository.FindByIdAsync(parentCategoryId, cancellationToken);
         this.guardClause.ThrowIfNull(parentCategory, new CategoryNotFoundException(parentCategoryId));
-        parentCategory.AddChildCategory(notification.CategoryId);
+        parentCategory.AddSubcategory(notification.CategoryId);
     }
 }

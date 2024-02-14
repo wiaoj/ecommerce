@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using ecommerce.Domain.Common.Models;
+using System.Diagnostics.CodeAnalysis;
 
 namespace ecommerce.Domain.Extensions;
 public static class StringExtensions {
@@ -10,15 +11,15 @@ public static class StringExtensions {
         return String.Format(value, args);
     }
 
-    public static Boolean IsNotNullOrEmpty([NotNullWhen(true)]this String? value) {
+    public static Boolean IsNotNullOrEmpty([NotNullWhen(true)] this String? value) {
         return !String.IsNullOrEmpty(value);
     }
 
-    public static Boolean IsNullOrEmpty([NotNullWhen(false)]this String? value) {
+    public static Boolean IsNullOrEmpty([NotNullWhen(false)] this String? value) {
         return String.IsNullOrEmpty(value);
     }
 
-    public static Boolean IsNullOrWhiteSpaces([NotNullWhen(false)]this String? value) {
+    public static Boolean IsNullOrWhiteSpaces([NotNullWhen(false)] this String? value) {
         return String.IsNullOrWhiteSpace(value);
     }
 }

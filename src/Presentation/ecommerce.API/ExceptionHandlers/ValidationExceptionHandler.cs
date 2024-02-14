@@ -1,4 +1,5 @@
 ﻿using ecommerce.Application.Exceptions;
+using ecommerce.Domain.Common.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 

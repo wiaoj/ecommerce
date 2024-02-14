@@ -12,6 +12,7 @@ public sealed class CategoryFactory : ICategoryFactory {
         CategoryAggregate category = new(parentCategoryId,
                                          CategoryId.CreateUnique,
                                          name,
+                                         [],
                                          []);
         category.RaiseDomainEvent(new CategoryCreatedDomainEvent(category));
         return category;

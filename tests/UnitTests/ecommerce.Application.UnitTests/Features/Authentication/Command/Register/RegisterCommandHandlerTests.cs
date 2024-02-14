@@ -5,6 +5,7 @@ using ecommerce.Application.Features.Authentication.Common;
 using ecommerce.Application.UnitTests.Features.Authentication.Extensions;
 using ecommerce.Domain.Aggregates.UserAggregate;
 using ecommerce.Domain.Aggregates.UserAggregate.ValueObjects;
+using ecommerce.Domain.Common;
 using ecommerce.UnitTests.Common.Users;
 
 namespace ecommerce.Application.UnitTests.Features.Authentication.Command.Register;

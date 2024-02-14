@@ -27,7 +27,7 @@ internal sealed class TransactionBehavior<TRequest, TResponse> : IPipelineBehavi
             IsolationLevel = IsolationLevel.ReadCommitted,
         };
 
-        await this.unitOfWork.CreateExecutionStrategyAsync(async (x) => {
+        await this.unitOfWork.CreateExecutionStrategyAsync(async (_) => {
             using TransactionScope transaction = new(TransactionScopeOption.Required,
                                                      transactionOptions,
                                                      TransactionScopeAsyncFlowOption.Enabled);

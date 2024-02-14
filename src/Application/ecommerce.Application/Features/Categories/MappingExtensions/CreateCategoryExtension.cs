@@ -1,5 +1,6 @@
-﻿using ecommerce.Application.Features.Categories.Commands.CreateCategory; 
+﻿using ecommerce.Application.Features.Categories.Commands.CreateCategory;
 using ecommerce.Domain.Aggregates.CategoryAggregate;
+using ecommerce.Domain.Aggregates.CategoryAggregate.ValueObjects;
 
 namespace ecommerce.Application.Features.Categories.MappingExtensions;
 public static class CreateCategoryExtension {
@@ -10,6 +11,8 @@ public static class CreateCategoryExtension {
     }
 
     public static CategoryAggregate FromCreateCommand(this ICategoryFactory categoryFactory, CreateCategoryCommand command) {
-        return categoryFactory.Create(command.ParentCategoryId, command.Name);
+        CategoryId? parentId = categoryFactory.CreateCategoryId(command.ParentCategoryId);
+        CategoryName categoryName = categoryFactory.CreateCategoryName(command.Name);
+        return categoryFactory.Create(parentId, categoryName);
     }
 }

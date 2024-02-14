@@ -1,36 +1,26 @@
 ﻿using ecommerce.Domain.Aggregates.CategoryAggregate;
-using ecommerce.Domain.Aggregates.CategoryAggregate.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ecommerce.Persistance.EntityConfigurations;
-internal sealed class CategoryAggregateConfigurations : IEntityTypeConfiguration<CategoryAggregate> {
+internal sealed class CategoryAggregateConfigurations(ICategoryFactory categoryFactory) : IEntityTypeConfiguration<CategoryAggregate> {
     public void Configure(EntityTypeBuilder<CategoryAggregate> builder) {
         builder.ToTable("Categories");
 
         builder.HasKey(category => category.Id);
-
         builder.Property(category => category.Id)
-            .ValueGeneratedNever()
-            .HasConversion(
-                id => id.Value,
-                value => CategoryId.Create(value));
+          .HasConversion(id => id.Value, value => categoryFactory.CreateId(value));
 
+        builder.HasIndex(category => category.Name).IsUnique(true);
         builder.Property(category => category.Name)
-            .HasMaxLength(100)
-            .HasConversion(
-                name => name.Value,
-                value => CategoryName.Create(value));
+            .HasConversion(name => name.Value, value => categoryFactory.CreateCategoryName(value));
 
-        builder.HasIndex(category => category.Name)
-            .IsUnique(true);
-
+        builder.HasIndex(category => category.Id).IsUnique(false);
         builder.Property(category => category.ParentId)
-           .IsRequired(false)
-           .ValueGeneratedNever()
-           .HasConversion(
-               id => id!.Value,
-               value => CategoryId.Create(value));
+          .HasConversion(id => id.Value, value => categoryFactory.CreateId(value));
+
+        //builder.Metadata.FindNavigation(nameof(CategoryAggregate.Name))!
+        //                .SetPropertyAccessMode(PropertyAccessMode.Field);
 
         ConfigureChildCategoryIdsTable(builder);
         ConfigureCategoryProductIdsTable(builder);

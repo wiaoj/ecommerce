@@ -1,5 +1,6 @@
 ﻿using ecommerce.Application.Common.Interfaces;
 using ecommerce.Domain.Aggregates.UserAggregate.Interfaces;
+using ecommerce.Domain.Common;
 using ecommerce.Infrastructure.Security;
 using ecommerce.Infrastructure.Services;
 using ecommerce.Infrastructure.Settings;
@@ -27,7 +28,6 @@ public static class DependencyInjection {
 
         services.AddTransient<ICurrentUserProvider, CurrentUserProvider>();
         services.AddSingleton<IDateTimeProvider, SystemDateTimeProvider>();
-        services.AddScoped<IIdentityService, IdentityService>();
         services.AddSingleton<ICacheKeyGenerator, CacheKeyGenerator>();
         services.AddSingleton<IHashingProvider, HashingProvider>();
         services.AddSingleton<IPasswordHasher, PasswordHasher>();

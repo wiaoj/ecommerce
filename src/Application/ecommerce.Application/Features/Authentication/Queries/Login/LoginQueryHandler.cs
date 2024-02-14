@@ -7,6 +7,7 @@ using ecommerce.Application.Common.Repositories;
 using ecommerce.Domain.Aggregates.UserAggregate.Interfaces;
 using ecommerce.Domain.Extensions;
 using ecommerce.Application.Features.Authentication.Exceptions;
+using ecommerce.Domain.Common;
 
 namespace ecommerce.Application.Features.Authentication.Queries.Login;
 internal sealed class LoginQueryHandler : IRequestHandler<LoginQuery, AuthenticationResponse> {

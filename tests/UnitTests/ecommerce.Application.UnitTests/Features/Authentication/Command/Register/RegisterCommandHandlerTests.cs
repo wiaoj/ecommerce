@@ -2,11 +2,10 @@
 using ecommerce.Application.Common.Repositories;
 using ecommerce.Application.Features.Authentication.Commands.Register;
 using ecommerce.Application.Features.Authentication.Common;
-using ecommerce.Application.UnitTests.TestUtils.Users.Extensions;
-using ecommerce.Application.UnitTests.TestUtils.Users.Fakers;
+using ecommerce.Application.UnitTests.Features.Authentication.Extensions;
 using ecommerce.Domain.Aggregates.UserAggregate;
 using ecommerce.Domain.Aggregates.UserAggregate.ValueObjects;
-using FluentAssertions;
+using ecommerce.UnitTests.Common.Users;
 
 namespace ecommerce.Application.UnitTests.Features.Authentication.Command.Register;
 public sealed class RegisterCommandHandlerTests {
@@ -34,13 +33,13 @@ public sealed class RegisterCommandHandlerTests {
     }
 
     [Theory]
-    [ClassData(typeof(RegisterCommandHandlerTestData))]
+    [ClassData(typeof(RegisterCommandHandlerTestsData))]
     public async Task HandleRegisterCommand_GivenValidRequest_ShouldReturnAuthenticationResponse(RegisterCommand command) {
         // Arrange
         String expectedJwtToken = "GeneratedJwtToken";
         String expectedRefreshTokenValue = "GeneratedRefreshTokenValue";
-        UserAggregate expectedUser = UserFaker.CreateValidUserAggregate();
-        RefreshToken expectedRefreshToken = UserFaker.CreateValidRefreshToken();
+        UserAggregate expectedUser = UserTestFactory.CreateValidUserAggregate();
+        RefreshToken expectedRefreshToken = UserTestFactory.CreateValidRefreshToken();
 
         this.jwtTokenGenerator.GenerateJwtToken(Arg.Any<UserAggregate>()).Returns(expectedJwtToken);
         this.refreshTokenGenerator.GenerateRefreshToken().Returns(expectedRefreshTokenValue);
@@ -56,6 +55,7 @@ public sealed class RegisterCommandHandlerTests {
                                 Arg.Any<Password>())
             .Returns(expectedUser);
 
+
         // Act
         AuthenticationResponse response = await this.handler.Handle(command, CancellationToken.None);
 
@@ -66,35 +66,39 @@ public sealed class RegisterCommandHandlerTests {
     }
 
     [Theory]
-    [ClassData(typeof(RegisterCommandHandlerTestData))]
+    [ClassData(typeof(RegisterCommandHandlerTestsData))]
     public async Task HandleRegisterCommand_ShouldCreateUserCorrectly(RegisterCommand command) {
         // Arrange
-        UserId expectedUserId = UserFaker.UserId;
-        FullName expectedFullName = new(command.FirstName, [], command.LastName);
-        Email expectedEmail = new(command.Email);
-        PhoneNumber expectedPhoneNumber = new(command.PhoneNumber);
-        Password expectedPassword = new(command.Password, Guid.NewGuid().ToString());
+        UserId expectedUserId = UserTestFactory.UserId;
+        FullName expectedFullName = UserTestFactory.CreateExpectedFullName(command.FirstName, command.LastName);
+        Email expectedEmail = UserTestFactory.CreateExpectedEmail(command.Email);
+        PhoneNumber expectedPhoneNumber = UserTestFactory.CreateExpectedPhoneNumber(command.PhoneNumber);
+        Password expectedPassword = UserTestFactory.CreateValidPassword();
+        RefreshToken expectedRefreshToken = UserTestFactory.CreateValidRefreshToken();
+        UserAggregate expectedUser = UserTestFactory.CreateExpectedUserAggregate(expectedUserId,
+                                                                              expectedFullName,
+                                                                              expectedEmail,
+                                                                              expectedPhoneNumber,
+                                                                              expectedPassword);
 
-        RefreshToken expectedRefreshToken = UserFaker.CreateValidRefreshToken();
+        this.userFactory.CreateFullName(Arg.Is<String>(command.FirstName), Arg.Is<String>(command.LastName))
+            .Returns(expectedFullName);
 
-        UserAggregate expectedUser = new(expectedUserId,
-                                         expectedFullName,
-                                         expectedEmail,
-                                         expectedPhoneNumber,
-                                         expectedPassword,
-                                         []);
+        this.userFactory.CreateEmail(Arg.Is<String>(command.Email))
+            .Returns(expectedEmail);
 
-        this.userFactory.CreateFullName(Arg.Any<String>(), Arg.Any<String>()).Returns(expectedFullName);
-        this.userFactory.CreateEmail(Arg.Any<String>()).Returns(expectedEmail);
-        this.userFactory.CreatePhoneNumber(Arg.Any<String>()).Returns(expectedPhoneNumber);
-        this.userFactory.CreatePassword(Arg.Any<String>()).Returns(expectedPassword);
+        this.userFactory.CreatePhoneNumber(Arg.Is<String?>(command.PhoneNumber))
+            .Returns(expectedPhoneNumber);
 
-        this.userFactory.Create(
-            Arg.Is<FullName>(fn => fn.FirstName == command.FirstName && fn.LastName == command.LastName),
-            Arg.Is<Email>(e => e.Value == command.Email),
-            Arg.Is<PhoneNumber>(pn => pn.Value == command.PhoneNumber),
-            Arg.Is<Password>(p => !String.IsNullOrEmpty(p.HashedValue) && !String.IsNullOrEmpty(p.Salt)))
-        .Returns(expectedUser);
+        this.userFactory.CreatePassword(Arg.Is<String>(command.Password))
+            .Returns(expectedPassword);
+
+        this.userFactory.Create(Arg.Is<FullName>(expectedFullName),
+                                Arg.Is<Email>(expectedEmail),
+                                Arg.Is<PhoneNumber>(expectedPhoneNumber),
+                                Arg.Is<Password>(expectedPassword))
+            .Returns(expectedUser);
+
 
         this.userFactory.CreateRefreshToken(Arg.Any<String>(), Arg.Any<DateTime>(), Arg.Any<DateTime>(), Arg.Any<String>())
             .Returns(expectedRefreshToken);
@@ -103,12 +107,12 @@ public sealed class RegisterCommandHandlerTests {
         await this.handler.Handle(command, CancellationToken.None);
 
         // Assert
+        this.userFactory.Received(1).CreateFullName(command.FirstName, command.LastName);
+        this.userFactory.Received(1).CreateEmail(command.Email);
+        this.userFactory.Received(1).CreatePhoneNumber(command.PhoneNumber);
+        this.userFactory.Received(1).CreatePassword(command.Password);
+
+        await this.userRepository.Received(1).CreateAsync(Arg.Is<UserAggregate>(expectedUser), Arg.Any<CancellationToken>());
         expectedUser.VerifyUserCreationFromCommand(command);
-        await this.userRepository.Received(1).CreateAsync(Arg.Is<UserAggregate>(user =>
-                    user.FullName.FirstName == command.FirstName
-                    && user.FullName.LastName == command.LastName
-                    && user.Email.Value == command.Email
-                    && user.PhoneNumber.Value == command.PhoneNumber
-                    && user.Password.HashedValue == expectedPassword.HashedValue), Arg.Any<CancellationToken>());
     }
 }

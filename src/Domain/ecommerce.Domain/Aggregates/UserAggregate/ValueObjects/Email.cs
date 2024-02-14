@@ -1,12 +1,15 @@
-﻿namespace ecommerce.Domain.Aggregates.UserAggregate.ValueObjects;
+﻿using ecommerce.Domain.Aggregates.UserAggregate.Exceptions;
+
+namespace ecommerce.Domain.Aggregates.UserAggregate.ValueObjects;
 public sealed record Email {
     public String Value { get; private set; }
     public Boolean IsConfirmed { get; private set; }
 
     private Email() { }
     internal Email(String value) {
-        ArgumentException.ThrowIfNullOrWhiteSpace(value);
-
+        if(String.IsNullOrWhiteSpace(value))
+            throw new InvalidEmailException(value);
+        
         this.Value = value;
         this.IsConfirmed = false;
     }

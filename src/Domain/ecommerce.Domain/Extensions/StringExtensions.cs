@@ -2,7 +2,7 @@
 
 namespace ecommerce.Domain.Extensions;
 public static class StringExtensions {
-    public static String Format(this String value, Object arg) {
+    public static String Format(this String value, Object? arg) {
         return String.Format(value, arg);
     }
 
@@ -12,5 +12,13 @@ public static class StringExtensions {
 
     public static Boolean IsNotNullOrEmpty([NotNullWhen(true)]this String? value) {
         return !String.IsNullOrEmpty(value);
+    }
+
+    public static Boolean IsNullOrEmpty([NotNullWhen(false)]this String? value) {
+        return String.IsNullOrEmpty(value);
+    }
+
+    public static Boolean IsNullOrWhiteSpaces([NotNullWhen(false)]this String? value) {
+        return String.IsNullOrWhiteSpace(value);
     }
 }

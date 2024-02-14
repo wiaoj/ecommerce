@@ -1,11 +1,9 @@
 ﻿using Bogus;
 using ecommerce.Application.Features.Authentication.Commands.Register;
-using ecommerce.Domain.Aggregates.UserAggregate.ValueObjects;
-using ecommerce.Domain.Aggregates.UserAggregate;
 
 namespace ecommerce.Application.UnitTests.Features.Authentication.Command.Register;
-public sealed class RegisterCommandHandlerTestData : TheoryData<RegisterCommand> {
-    public RegisterCommandHandlerTestData() {
+public sealed class RegisterCommandHandlerTestsData : TheoryData<RegisterCommand> {
+    public RegisterCommandHandlerTestsData() {
         Add(CreateValidCommand());
     }
 

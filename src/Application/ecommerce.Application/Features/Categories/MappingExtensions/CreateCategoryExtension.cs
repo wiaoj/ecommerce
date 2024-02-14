@@ -9,7 +9,7 @@ internal static class CreateCategoryExtension {
                    category.Name.Value);
     }
 
-    public static CategoryAggregate ToAggregate(this CreateCategoryCommand createCategoryCommand, ICategoryFactory categoryFactory) {
+    public static CategoryAggregate ToFromCreateCommand(this CreateCategoryCommand createCategoryCommand, ICategoryFactory categoryFactory) {
         return categoryFactory.Create(createCategoryCommand.ParentCategoryId, createCategoryCommand.Name);
     }
 }

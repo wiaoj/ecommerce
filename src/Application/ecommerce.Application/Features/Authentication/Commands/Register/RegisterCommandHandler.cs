@@ -1,6 +1,7 @@
 ﻿using ecommerce.Application.Common.Interfaces;
 using ecommerce.Application.Common.Repositories;
 using ecommerce.Application.Features.Authentication.Common;
+using ecommerce.Application.Features.Authentication.MappingExtensions;
 using ecommerce.Domain.Aggregates.UserAggregate;
 using ecommerce.Domain.Aggregates.UserAggregate.ValueObjects;
 using MediatR;
@@ -29,11 +30,7 @@ internal sealed class RegisterCommandHandler : IRequestHandler<RegisterCommand, 
     }
 
     public async Task<AuthenticationResponse> Handle(RegisterCommand request, CancellationToken cancellationToken) {
-        FullName fullName = this.userFactory.CreateFullName(request.FirstName, request.LastName);
-        Email email = this.userFactory.CreateEmail(request.Email);
-        PhoneNumber phoneNumber = this.userFactory.CreatePhoneNumber(request.PhoneNumber);
-        Password password = this.userFactory.CreatePassword(request.Password);
-        UserAggregate user = this.userFactory.Create(fullName, email, phoneNumber, password);
+        UserAggregate user = this.userFactory.FromRegisterCommand(request);
 
         String jwtToken = this.jwtTokenGenerator.GenerateJwtToken(user);
         String refreshTokenValue = this.refreshTokenGenerator.GenerateRefreshToken();

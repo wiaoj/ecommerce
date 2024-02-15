@@ -11,7 +11,7 @@ public static class CreateCategoryExtension {
     }
 
     public static CategoryAggregate FromCreateCommand(this ICategoryFactory categoryFactory, CreateCategoryCommand command) {
-        CategoryId? parentId = categoryFactory.CreateCategoryId(command.ParentCategoryId);
+        CategoryId? parentId = categoryFactory.CreateId(command.ParentCategoryId);
         CategoryName categoryName = categoryFactory.CreateCategoryName(command.Name);
         return categoryFactory.Create(parentId, categoryName);
     }

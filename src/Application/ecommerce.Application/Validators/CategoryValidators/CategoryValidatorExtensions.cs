@@ -12,7 +12,7 @@ internal static class CategoryValidatorExtensions {
                                                                       ICategoryRepository categoryRepository,
                                                                       ICategoryFactory categoryFactory) {
         async Task<Boolean> predicate(Guid id, CancellationToken cancellationToken) {
-            return await categoryRepository.ExistsAsync(categoryFactory.CreateCategoryId(id)!, cancellationToken);
+            return await categoryRepository.ExistsAsync(categoryFactory.CreateId(id)!, cancellationToken);
         }
         return ruleBuilder.MustAsync(predicate).WithMessage(Errors.Category.NotFound);
     }
@@ -33,7 +33,7 @@ internal static class CategoryValidatorExtensions {
             return ruleBuilder.Must(x => false);
 
         async Task<Boolean> predicate(Guid? id, CancellationToken cancellationToken) {
-            return await categoryRepository.ExistsAsync(categoryFactory.CreateCategoryId(id)!, cancellationToken);
+            return await categoryRepository.ExistsAsync(categoryFactory.CreateId(id)!, cancellationToken);
         }
         return ruleBuilder.MustAsync(predicate).WithMessage(Errors.Category.NotFound);
     }

@@ -11,5 +11,6 @@ internal static partial class CategoryConstants {
         public const String SubcategoryNotFound = "Subcategory with ID {0} could not be removed because it does not exist";
         public const String ProductAlreadyInCategory = "Product with ID {0} is already added to the category";
         public const String ProductNotInCategory = "Product with ID {0} does not exist in the category";
+        public const String InvalidCategoryName = "Invalid category name: {0}";
     }
 }

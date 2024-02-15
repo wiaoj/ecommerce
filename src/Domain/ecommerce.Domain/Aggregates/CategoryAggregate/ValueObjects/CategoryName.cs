@@ -1,11 +1,14 @@
-﻿namespace ecommerce.Domain.Aggregates.CategoryAggregate.ValueObjects;
+﻿using ecommerce.Domain.Aggregates.CategoryAggregate.Exceptions;
+
+namespace ecommerce.Domain.Aggregates.CategoryAggregate.ValueObjects;
 public sealed record CategoryName {
     public String Value { get; }
 
     private CategoryName() { }
     internal CategoryName(String value) {
+        if(string.IsNullOrWhiteSpace(value))
+            throw new InvalidCategoryNameException(value);
         value = value.Trim();
-        ArgumentException.ThrowIfNullOrWhiteSpace(value);
         this.Value = value;
     }
 

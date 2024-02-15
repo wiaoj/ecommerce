@@ -1,10 +1,13 @@
 ﻿using Bogus;
 using ecommerce.Domain.Aggregates.CategoryAggregate;
 using ecommerce.Domain.Aggregates.CategoryAggregate.ValueObjects;
-using ecommerce.Domain.Aggregates.ProductAggregate.ValueObjects;
+using ecommerce.UnitTests.Common.Categories.Extensions;
 
 namespace ecommerce.UnitTests.Common.Categories;
 public static class CategoryTestFactory {
+    private static readonly Faker<CategoryAggregate> categoryFaker = new();
+    private static readonly Faker faker = new();
+
     public static CategoryAggregate CreateValidCategoryAggregate() {
         return CreateValidCategoryAggregate(false);
     }
@@ -17,27 +20,18 @@ public static class CategoryTestFactory {
         return CreateValidCategoryAggregate(false, childCategoryCount, 0);
     }
 
+    public static CategoryAggregate CreateValidCategoryAggregate(Boolean hasParentCategory,
+                                                                 Int32 childCategoryCount,
+                                                                 Int32 productCount) {
+        return categoryFaker.CreateCategory(hasParentCategory, childCategoryCount, productCount).Generate();
+    }
+
     public static CategoryAggregate CreateValidCategoryAggregateWithProducts() {
         return CreateValidCategoryAggregateWithProducts(1);
     }
 
     public static CategoryAggregate CreateValidCategoryAggregateWithProducts(Int32 productCount) {
         return CreateValidCategoryAggregate(false, 0, productCount);
-    }
-
-    public static CategoryAggregate CreateValidCategoryAggregate(Boolean hasParentCategory,
-                                                                 Int32 childCategoryCount,
-                                                                 Int32 productCount) {
-        CategoryId? parentCategoryId = hasParentCategory ? CreateValidParentCategoryId() : null;
-        Faker<CategoryAggregate> userFaker = new Faker<CategoryAggregate>()
-            .CustomInstantiator(faker => new CategoryAggregate(
-                parentCategoryId,
-                CategoryId.CreateUnique,
-                new CategoryName(faker.Commerce.Categories(1)[0]),
-                Enumerable.Range(0, childCategoryCount).Select(_ => new CategoryId(faker.Random.Guid())).ToList(),
-                Enumerable.Range(0, productCount).Select(_ => new ProductId(faker.Random.Guid())).ToList()
-            ));
-        return userFaker.Generate();
     }
 
     public static CategoryId CreateValidCategoryId() {
@@ -56,5 +50,15 @@ public static class CategoryTestFactory {
         return CreateCategoryId();
     }
 
-    private static CategoryId CreateCategoryId() => new(Guid.NewGuid());
+    public static CategoryName CreateValidCategoryName() {
+        return new(faker.Commerce.Categories(1)[0]);
+    }
+
+    public static CategoryName CreateValidCategoryName(String value) {
+        return new(value);
+    }
+
+    private static CategoryId CreateCategoryId() {
+        return new(faker.Random.Guid());
+    }
 }

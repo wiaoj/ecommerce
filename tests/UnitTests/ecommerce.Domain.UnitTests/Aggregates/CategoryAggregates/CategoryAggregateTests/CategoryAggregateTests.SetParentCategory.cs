@@ -1,10 +1,10 @@
 ﻿using ecommerce.Domain.Aggregates.CategoryAggregate.Exceptions;
 using ecommerce.Domain.Aggregates.CategoryAggregate.ValueObjects;
-using ecommerce.Domain.Aggregates.CategoryAggregate;
 using ecommerce.UnitTests.Common.Categories;
 using ecommerce.Domain.Aggregates.CategoryAggregate.Events;
+using ecommerce.Domain.Aggregates.CategoryAggregate;
 
-namespace ecommerce.Domain.UnitTests.Aggregates.CategoryAggregateTests;
+namespace ecommerce.Domain.UnitTests.Aggregates.CategoryAggregates.CategoryAggregateTests;
 public partial class CategoryAggregateTests {
     [Fact]
     public void SetParentCategory_WhenCategoryIsSetAsOwnParent_ThrowsCategoryCannotBeOwnParentException() {

@@ -4,4 +4,4 @@ using ecommerce.Domain.Extensions;
 
 namespace ecommerce.Domain.Aggregates.CategoryAggregate.Exceptions;
 internal class InvalidCategoryNameException(String value) 
-    : DomainValidationException(CategoryConstants.Exceptions.InvalidCategoryName.Format(value));
+    : DomainValidationException(CategoryConstants.ErrorMessages.InvalidCategoryName.Format(value));

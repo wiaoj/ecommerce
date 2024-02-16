@@ -15,10 +15,6 @@ internal sealed class UserAggregateConfigurations : IEntityTypeConfiguration<Use
         builder.OwnsOne(user => user.FullName, fullName => {
             fullName.Property(x => x.FirstName).HasColumnName("FirstName").IsRequired().HasMaxLength(50);
             fullName.Property(x => x.LastName).HasColumnName("LastName").IsRequired().HasMaxLength(50);
-            fullName.Property(x => x.MiddleNames).HasColumnName("MiddleNames").HasConversion(
-                x => String.Join(',', x),
-                x => x.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList()
-            ).HasMaxLength(200);
         });
 
         builder.OwnsOne(user => user.Email, email => {

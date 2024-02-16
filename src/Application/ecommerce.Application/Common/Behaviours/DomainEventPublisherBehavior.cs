@@ -3,7 +3,6 @@ using ecommerce.Domain.Common;
 using ecommerce.Domain.Extensions;
 using ecommerce.Domain.Services;
 using MediatR;
-using Microsoft.Extensions.Logging;
 
 namespace ecommerce.Application.Common.Behaviours;
 internal sealed class DomainEventPublisherBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
@@ -24,7 +23,7 @@ internal sealed class DomainEventPublisherBehavior<TRequest, TResponse> : IPipel
             return response;
         }
 
-        Int32 eventsCount = this.domainEventService.Events.Count;
+        //Int32 eventsCount = this.domainEventService.Events.Count;
         //this.logger.LogInformation("{EventsCount} domain events found to publish for {RequestType}. Initiating publication process...", eventsCount, typeof(TRequest).Name);
 
         foreach(IDomainEvent domainEvent in this.domainEventService.Events) {

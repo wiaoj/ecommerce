@@ -38,7 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Aggregates\CategoryAggregates\ValueObjectsTests\" />
+    <Folder Include="Aggregates\Categories\ValueObjectTests\" />
   </ItemGroup>
 
 </Project>

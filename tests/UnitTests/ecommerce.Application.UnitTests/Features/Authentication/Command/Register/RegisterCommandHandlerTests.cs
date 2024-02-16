@@ -39,8 +39,8 @@ public sealed class RegisterCommandHandlerTests {
         // Arrange
         String expectedJwtToken = "GeneratedJwtToken";
         String expectedRefreshTokenValue = "GeneratedRefreshTokenValue";
-        UserAggregate expectedUser = UserTestFactory.CreateValidUserAggregate();
-        RefreshToken expectedRefreshToken = UserTestFactory.CreateValidRefreshToken();
+        UserAggregate expectedUser = UserTestFactory.CreateUser();
+        RefreshToken expectedRefreshToken = UserTestFactory.CreateRefreshToken();
 
         this.jwtTokenGenerator.GenerateJwtToken(Arg.Any<UserAggregate>()).Returns(expectedJwtToken);
         this.refreshTokenGenerator.GenerateRefreshToken().Returns(expectedRefreshTokenValue);
@@ -70,13 +70,13 @@ public sealed class RegisterCommandHandlerTests {
     [ClassData(typeof(RegisterCommandHandlerTestsData))]
     public async Task HandleRegisterCommand_ShouldCreateUserCorrectly(RegisterCommand command) {
         // Arrange
-        UserId expectedUserId = UserTestFactory.UserId;
-        FullName expectedFullName = UserTestFactory.CreateExpectedFullName(command.FirstName, command.LastName);
-        Email expectedEmail = UserTestFactory.CreateExpectedEmail(command.Email);
-        PhoneNumber expectedPhoneNumber = UserTestFactory.CreateExpectedPhoneNumber(command.PhoneNumber);
-        Password expectedPassword = UserTestFactory.CreateValidPassword();
-        RefreshToken expectedRefreshToken = UserTestFactory.CreateValidRefreshToken();
-        UserAggregate expectedUser = UserTestFactory.CreateExpectedUserAggregate(expectedUserId,
+        UserId expectedUserId = UserTestFactory.CreateUserId();
+        FullName expectedFullName = UserTestFactory.CreateFullName(command.FirstName, command.LastName);
+        Email expectedEmail = UserTestFactory.CreateEmail(command.Email);
+        PhoneNumber expectedPhoneNumber = UserTestFactory.CreatePhoneNumber(command.PhoneNumber);
+        Password expectedPassword = UserTestFactory.CreatePassword();
+        RefreshToken expectedRefreshToken = UserTestFactory.CreateRefreshToken();
+        UserAggregate expectedUser = UserTestFactory.CreateUser(expectedUserId,
                                                                               expectedFullName,
                                                                               expectedEmail,
                                                                               expectedPhoneNumber,

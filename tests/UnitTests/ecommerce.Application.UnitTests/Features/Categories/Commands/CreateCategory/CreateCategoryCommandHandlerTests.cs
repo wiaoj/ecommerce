@@ -23,7 +23,7 @@ public class CreateCategoryCommandHandlerTests {
     public async Task HandleCreateCategoryCommand_GivenValidCommand_ShouldCreateAndReturnCategory(
         CreateCategoryCommand command) {
         // Arrange
-        CategoryAggregate expectedCategory = CategoryTestFactory.CreateValidCategoryAggregate();
+        CategoryAggregate expectedCategory = CategoryTestFactory.CreateCategory();
         this.categoryFactory.Create(Arg.Any<CategoryId?>(), Arg.Any<CategoryName>()).Returns(expectedCategory);
 
         // Act 

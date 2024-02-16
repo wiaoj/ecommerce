@@ -5,4 +5,4 @@ using ecommerce.Domain.Extensions;
 
 namespace ecommerce.Domain.Aggregates.CategoryAggregate.Exceptions;
 public class ParentCategoryAlreadySetException(CategoryId parentCategoryId)
-    : DomainValidationException(CategoryConstants.Exceptions.ParentCategoryAlreadySet.Format(parentCategoryId));
+    : DomainValidationException(CategoryConstants.ErrorMessages.ParentCategoryAlreadySet.Format(parentCategoryId));

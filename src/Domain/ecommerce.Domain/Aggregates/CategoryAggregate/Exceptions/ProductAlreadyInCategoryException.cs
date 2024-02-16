@@ -5,4 +5,4 @@ using ecommerce.Domain.Extensions;
 
 namespace ecommerce.Domain.Aggregates.CategoryAggregate.Exceptions;
 public class ProductAlreadyInCategoryException(ProductId productId) 
-    : DomainValidationException(CategoryConstants.Exceptions.ProductAlreadyInCategory.Format(productId)); 
+    : DomainValidationException(CategoryConstants.ErrorMessages.ProductAlreadyInCategory.Format(productId)); 

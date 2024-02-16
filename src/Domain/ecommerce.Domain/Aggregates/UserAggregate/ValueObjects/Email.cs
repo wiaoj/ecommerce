@@ -1,15 +1,17 @@
-﻿using ecommerce.Domain.Aggregates.UserAggregate.Exceptions;
+﻿using ecommerce.Domain.Aggregates.UserAggregate.Constants;
+using ecommerce.Domain.Aggregates.UserAggregate.Exceptions;
+using ecommerce.Domain.Extensions;
 
 namespace ecommerce.Domain.Aggregates.UserAggregate.ValueObjects;
-public sealed record Email {
+public sealed partial record Email {
     public String Value { get; private set; }
     public Boolean IsConfirmed { get; private set; }
 
     private Email() { }
     internal Email(String value) {
-        if(String.IsNullOrWhiteSpace(value))
-            throw new InvalidEmailException(value);
-        
+        if(value is null || UserConstants.Regexes.EmailRegex().IsMatch(value).IsFalse())
+            throw new InvalidEmailFormatException(value);
+
         this.Value = value;
         this.IsConfirmed = false;
     }

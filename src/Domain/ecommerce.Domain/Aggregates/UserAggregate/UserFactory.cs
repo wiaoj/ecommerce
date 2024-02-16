@@ -16,16 +16,19 @@ public sealed class UserFactory : IUserFactory {
         return user;
     }
 
+    public UserId CreateId(String value) {
+        if(Guid.TryParse(value, out var id))
+            return new(id);
+
+        throw new ApplicationException("User not found");
+    }
+
     public Email CreateEmail(String email) {
         return new(email);
     }
 
     public FullName CreateFullName(String firstName, String lastName) {
-        return CreateFullName(firstName, null, lastName);
-    }
-
-    public FullName CreateFullName(String firstName, IEnumerable<String>? middleNames, String lastName) {
-        return new(firstName, middleNames, lastName);
+        return new(firstName, lastName);
     }
 
     public Password CreatePassword(String password) {

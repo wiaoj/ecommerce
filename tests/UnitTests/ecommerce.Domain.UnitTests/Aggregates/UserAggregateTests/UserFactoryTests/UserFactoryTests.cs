@@ -1,6 +1,7 @@
-﻿using ecommerce.Domain.Aggregates.UserAggregate.Interfaces;
-using ecommerce.Domain.Aggregates.UserAggregate.ValueObjects;
 using ecommerce.Domain.Aggregates.UserAggregate;
+using ecommerce.Domain.Aggregates.UserAggregate.Events;
+using ecommerce.Domain.Aggregates.UserAggregate.Interfaces;
+using ecommerce.Domain.Aggregates.UserAggregate.ValueObjects;
 using ecommerce.UnitTests.Common.Users;
 
 namespace ecommerce.Domain.UnitTests.Aggregates.UserAggregateTests.UserFactoryTests;
@@ -86,12 +87,12 @@ public partial class UserFactoryTests {
     [Fact]
     public void Create_InvalidPasswordSalt_ShouldThrow() {
         // Arrange
-        var password = "password";
+        String password = "password";
         this.passwordHasher.HashPassword(password, out Arg.Is<String>(String.Empty))
             .Returns(String.Empty);
 
         // Act
-        var createdPasswordFunc = () => this.userFactory.CreatePassword(password);
+        Func<Password> createdPasswordFunc = () => this.userFactory.CreatePassword(password);
 
         // Assert
         createdPasswordFunc.Should().Throw<ArgumentException>("Password Hash or Salt can not be null");
@@ -100,13 +101,13 @@ public partial class UserFactoryTests {
     [Fact]
     public void Create_ReturnsValidUserAggregate() {
         // Arrange
-        var fullName = UserTestFactory.CreateValidFullName();
-        var email = UserTestFactory.CreateValidEmail();
-        var phoneNumber = UserTestFactory.CreateValidPhoneNumber();
-        var password = UserTestFactory.CreateValidPassword();
+        FullName fullName = UserTestFactory.CreateValidFullName();
+        Email email = UserTestFactory.CreateValidEmail();
+        PhoneNumber phoneNumber = UserTestFactory.CreateValidPhoneNumber();
+        Password password = UserTestFactory.CreateValidPassword();
 
         // Act
-        var user = userFactory.Create(fullName, email, phoneNumber, password);
+        UserAggregate user = this.userFactory.Create(fullName, email, phoneNumber, password);
 
         // Assert
         user.Should().NotBeNull();
@@ -114,5 +115,10 @@ public partial class UserFactoryTests {
         user.Email.Should().Be(email);
         user.PhoneNumber.Should().Be(phoneNumber);
         user.Password.Should().Be(password);
+        user.DomainEvents.Should().ContainSingle();
+        user.DomainEvents[0].Should().BeOfType<UserCreatedDomainEvent>();
+        UserCreatedDomainEvent domainEvent = user.DomainEvents.OfType<UserCreatedDomainEvent>().First();
+        domainEvent.Should().NotBeNull();
+        domainEvent.User.Should().Be(user);
     }
 }

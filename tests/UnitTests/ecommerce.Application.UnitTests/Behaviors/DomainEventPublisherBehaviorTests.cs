@@ -1,8 +1,10 @@
-﻿using ecommerce.Application.Common.Behaviours;
+﻿using Castle.Core.Logging;
+using ecommerce.Application.Common.Behaviours;
 using ecommerce.Application.Common.Interfaces;
 using ecommerce.Domain.Common;
 using ecommerce.Domain.Services;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace ecommerce.Application.UnitTests.Behaviors;
 public class DomainEventPublisherBehaviorTests {

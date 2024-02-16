@@ -1,4 +1,5 @@
-﻿using ecommerce.Application.Common.Behaviours;
+﻿using ecommerce.Application.Common;
+using ecommerce.Application.Common.Behaviours;
 using ecommerce.Application.Common.Guard;
 using ecommerce.Domain.Aggregates.CategoryAggregate;
 using ecommerce.Domain.Aggregates.ProductAggregate;
@@ -6,6 +7,7 @@ using ecommerce.Domain.Aggregates.UserAggregate;
 using ecommerce.Domain.Aggregates.VariantAggregate;
 using ecommerce.Domain.Services;
 using FluentValidation;
+using MediatR.NotificationPublishers;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -30,10 +32,13 @@ public static class DependencyInjection {
                     configuration.AddOpenBehavior(typeof(DomainEventDiscoverBehavior<,>));
                     configuration.AddOpenRequestPostProcessor(typeof(DistributedCacheInvalidationBehavior<,>));
                     configuration.AddOpenRequestPostProcessor(typeof(LoggingPostBehavior<,>));
+
+                    configuration.NotificationPublisher = new TaskWhenAllPublisher();
+                    //configuration.NotificationPublisherType = typeof(DomainEventPublisher);
                 });
 
         services.AddFactories();
-        services.AddSingleton<IDomainEventService, DomainEventService>();
+        services.AddScoped<IDomainEventService, DomainEventService>();
         services.AddSingleton<IGuardClause, GuardClause>();
         return services;
     }

@@ -1,4 +1,5 @@
-﻿using ecommerce.Domain.Aggregates.UserAggregate.Interfaces;
+﻿using ecommerce.Domain.Aggregates.UserAggregate.Events;
+using ecommerce.Domain.Aggregates.UserAggregate.Interfaces;
 using ecommerce.Domain.Aggregates.UserAggregate.ValueObjects;
 
 namespace ecommerce.Domain.Aggregates.UserAggregate;
@@ -11,6 +12,7 @@ public sealed class UserFactory : IUserFactory {
 
     public UserAggregate Create(FullName fullName, Email email, PhoneNumber phoneNumber, Password password) {
         UserAggregate user = new(UserId.CreateUnique, fullName, email, phoneNumber, password, []);
+        user.RaiseDomainEvent(new UserCreatedDomainEvent(user));
         return user;
     }
 

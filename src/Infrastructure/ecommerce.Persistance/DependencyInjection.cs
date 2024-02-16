@@ -3,12 +3,9 @@ using ecommerce.Application.Common.Repositories;
 using ecommerce.Persistance.Context;
 using ecommerce.Persistance.Context.Interceptors;
 using ecommerce.Persistance.Repositories;
-using MediatR.Registration;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

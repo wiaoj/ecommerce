@@ -14,7 +14,8 @@ public sealed class DomainEventService : IDomainEventService {
 
     public void AddEvents(IEnumerable<IDomainEvent> domainEvents) {
         IEnumerable<IDomainEvent> eventsToAdd = domainEvents.Except(this.events);
-        this.events.AddRange(eventsToAdd);
+        foreach(var domainEvent in eventsToAdd)
+            this.events.Add(domainEvent);
     }
 
     public void ClearEvents() {

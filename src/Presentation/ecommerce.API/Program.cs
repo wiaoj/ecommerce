@@ -67,6 +67,8 @@ builder.Services.ConfigureApiVersioning();
 
 WebApplication app = builder.Build();
 
+app.UseInfrastructureServices();
+
 // Configure the HTTP request pipeline.
 if(app.Environment.IsDevelopment()) {
     app.UseSwagger();

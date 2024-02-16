@@ -5,6 +5,7 @@ using ecommerce.Infrastructure.Security;
 using ecommerce.Infrastructure.Services;
 using ecommerce.Infrastructure.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -38,7 +39,15 @@ public static class DependencyInjection {
         services.AddSingleton<IApplicationDistributedCache, ApplicationDistributedCache>();
         services.AddSingleton<ICacheKeyService, ApplicationDistributedCache>();
         services.AddDistributedMemoryCache(options => { });
+        services.AddMailService(configuration);
         return services;
+    }
+
+    private static void AddMailService(this IServiceCollection services, IConfiguration configuration) {
+        EmailSettings emailSettings = new();
+        configuration.Bind(EmailSettings.SectionName, emailSettings);
+        services.AddSingleton(Options.Create(emailSettings));
+        services.AddTransient<IEmailProvider, EmailProvider>();
     }
 
     private static IServiceCollection AddAuthentication(this IServiceCollection services, IConfiguration configuration) {
@@ -80,6 +89,10 @@ public static class DependencyInjection {
                 logBuilder.ClearProviders();
                 logBuilder.AddTelemetryLoggingConfiguration();
             });
+    }
+
+    public static void UseInfrastructureServices(this IApplicationBuilder app) {
+
     }
 
     private static void AddOpenTelemetry(IServiceCollection services) {

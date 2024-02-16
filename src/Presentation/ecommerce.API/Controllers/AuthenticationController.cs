@@ -5,11 +5,8 @@ using ecommerce.Application.Features.Authentication.Commands.RevokeRefreshTokens
 using ecommerce.Application.Features.Authentication.Common;
 using ecommerce.Application.Features.Authentication.Queries.Login;
 using ecommerce.Application.Features.Authentication.Queries.RefreshTokenLogin;
-using ecommerce.Domain.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
-using YamlDotNet.Core.Tokens;
 
 namespace ecommerce.API.Controllers;
 [Route("api/v{version:apiVersion}/authentication")]

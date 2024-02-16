@@ -1,4 +1,5 @@
 ﻿using ecommerce.Domain.Common;
+using ecommerce.Domain.Extensions;
 
 namespace ecommerce.Domain.Services;
 public sealed class DomainEventService : IDomainEventService {
@@ -6,10 +7,8 @@ public sealed class DomainEventService : IDomainEventService {
     public IReadOnlyList<IDomainEvent> Events => this.events.AsReadOnly();
 
     public void AddEvent(IDomainEvent domainEvent) {
-        if(this.events.Contains(domainEvent))
-            return;
-
-        this.events.Add(domainEvent);
+        if(this.events.Contains(domainEvent).IsFalse())
+            this.events.Add(domainEvent);
     }
 
     public void AddEvents(IEnumerable<IDomainEvent> domainEvents) {

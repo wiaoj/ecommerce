@@ -5,7 +5,7 @@ using ecommerce.Domain.Aggregates.ProductAggregate.ValueObjects;
 using ecommerce.UnitTests.Common.Categories;
 using ecommerce.UnitTests.Common.Products;
 
-namespace ecommerce.Domain.UnitTests.Aggregates.CategoryAggregateTests;
+namespace ecommerce.Domain.UnitTests.Aggregates.CategoryAggregates.CategoryAggregateTests;
 public partial class CategoryAggregateTests {
     [Fact]
     public void RemoveProduct_WhenProductIdIsValid_RemovesProductSuccessfully() {

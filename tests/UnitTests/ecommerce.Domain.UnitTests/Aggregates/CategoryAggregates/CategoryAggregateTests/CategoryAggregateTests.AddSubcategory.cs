@@ -4,7 +4,7 @@ using ecommerce.Domain.Aggregates.CategoryAggregate.Exceptions;
 using ecommerce.Domain.Aggregates.CategoryAggregate.ValueObjects;
 using ecommerce.UnitTests.Common.Categories;
 
-namespace ecommerce.Domain.UnitTests.Aggregates.CategoryAggregateTests;
+namespace ecommerce.Domain.UnitTests.Aggregates.CategoryAggregates.CategoryAggregateTests;
 public partial class CategoryAggregateTests {
     [Fact]
     public void AddSubcategory_WhenValidCategoryId_AddsSubcategorySuccessfully() {

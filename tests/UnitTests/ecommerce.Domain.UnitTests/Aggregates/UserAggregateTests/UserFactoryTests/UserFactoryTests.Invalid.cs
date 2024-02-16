@@ -1,7 +1,7 @@
 ﻿using ecommerce.Domain.Aggregates.UserAggregate.Exceptions;
 using ecommerce.Domain.Aggregates.UserAggregate.ValueObjects;
 
-namespace ecommerce.Domain.UnitTests.Aggregates.UserAggregateTests;
+namespace ecommerce.Domain.UnitTests.Aggregates.UserAggregateTests.UserFactoryTests;
 public partial class UserFactoryTests {
     [Theory]
     [InlineData(null, "LastName")]

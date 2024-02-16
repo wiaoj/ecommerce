@@ -1,16 +1,19 @@
-﻿using ecommerce.Domain.Aggregates.UserAggregate.Exceptions;
+﻿using ecommerce.Domain.Aggregates.UserAggregate.Constants;
+using ecommerce.Domain.Aggregates.UserAggregate.Exceptions;
 using ecommerce.Domain.Aggregates.UserAggregate.ValueObjects;
+using ecommerce.Domain.Extensions;
 using ecommerce.UnitTests.Common.Users;
+using FluentAssertions;
 
-namespace ecommerce.Domain.UnitTests.Aggregates.UserAggregateTests;
-public sealed partial class UserAggregateTests {
+namespace ecommerce.Domain.UnitTests.Aggregates.Users.ValueObjectTests;
+public sealed partial class ValueObjectTests {
     [Fact]
     public void CreatePhoneNumber_WithValidValue_ShouldNotBeNullAndNotConfirmed() {
         // Arrange
         String validValue = "123-456-7890";
 
         // Act
-        PhoneNumber phoneNumber = UserTestFactory.CreateExpectedPhoneNumber(validValue);
+        PhoneNumber phoneNumber = UserTestFactory.CreatePhoneNumber(validValue);
 
         // Assert
         phoneNumber.Should().NotBeNull();
@@ -24,7 +27,7 @@ public sealed partial class UserAggregateTests {
     [InlineData(null)]
     public void CreatePhoneNumber_WithInvalidValue_ShouldBeNullAndNotConfirmed(String? invalidValue) {
         // Act
-        PhoneNumber phoneNumber = UserTestFactory.CreateExpectedPhoneNumber(invalidValue);
+        PhoneNumber phoneNumber = UserTestFactory.CreatePhoneNumber(invalidValue);
 
         // Assert
         phoneNumber.Should().NotBeNull();
@@ -36,20 +39,19 @@ public sealed partial class UserAggregateTests {
     [InlineData(null)]
     public void Confirm_WithInvalidValue_ShouldThrowInvalidPhoneNumberException(String? invalidValue) {
         // Arrange
-        PhoneNumber phoneNumber = UserTestFactory.CreateExpectedPhoneNumber(invalidValue);
+        PhoneNumber phoneNumber = UserTestFactory.CreatePhoneNumber(invalidValue);
 
-        // Act
-        Func<PhoneNumber> act = () => phoneNumber.Confirm();
-
-        // Assert
-        act.Should().Throw<InvalidPhoneNumberException>()
-            .WithMessage($"The phone number '{invalidValue}' is invalid.");
+        // Act & Assert
+        phoneNumber.Invoking(x => x.Confirm())
+            .Should()
+            .Throw<PhoneNumberNotRegisteredException>()
+            .WithMessage(UserConstants.ErrorMessages.PhoneNumberNotRegistered.Format(invalidValue));
     }
 
     [Fact]
     public void ConfirmPhoneNumber_WithValidValue_ShouldBeConfirmed() {
         // Arrange
-        PhoneNumber phoneNumber = UserTestFactory.CreateValidPhoneNumber();
+        PhoneNumber phoneNumber = UserTestFactory.CreatePhoneNumber();
 
         // Act
         PhoneNumber confirmedPhoneNumber = phoneNumber.Confirm();

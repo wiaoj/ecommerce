@@ -1,8 +1,6 @@
-﻿using ecommerce.Domain.Aggregates.CategoryAggregate.ValueObjects;
-
-namespace ecommerce.Domain.Aggregates.CategoryAggregate.Constants;
+﻿namespace ecommerce.Domain.Aggregates.CategoryAggregate.Constants;
 internal static partial class CategoryConstants {
-    public static class Exceptions {
+    public struct ErrorMessages {
         public const String CategoryCannotBeOwnParent = "A category cannot be its own parent";
         public const String ParentCategoryAlreadySet = "The specified parent category ID '{0}' is already set as the parent of this category";
         public const String ParentCategoryNotSet = "Cannot remove parent category because it is not set";

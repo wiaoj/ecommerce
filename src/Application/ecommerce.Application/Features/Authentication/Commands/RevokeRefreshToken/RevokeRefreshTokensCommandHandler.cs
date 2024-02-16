@@ -9,19 +9,22 @@ namespace ecommerce.Application.Features.Authentication.Commands.RevokeRefreshTo
 internal sealed class RevokeRefreshTokenCommandHandler : IRequestHandler<RevokeRefreshTokenCommand> {
     private readonly ICurrentUserProvider currentUserService;
     private readonly IUserRepository userRepository;
+    private readonly IUserFactory userFactory;
 
-    public RevokeRefreshTokenCommandHandler(ICurrentUserProvider currentUserService, IUserRepository userRepository) {
+    public RevokeRefreshTokenCommandHandler(ICurrentUserProvider currentUserService,
+                                            IUserRepository userRepository,
+                                            IUserFactory userFactory) {
         this.currentUserService = currentUserService;
         this.userRepository = userRepository;
+        this.userFactory = userFactory;
     }
 
     public async Task Handle(RevokeRefreshTokenCommand request, CancellationToken cancellationToken) {
-        UserId userId = UserId.Create(this.currentUserService.UserId);
+        UserId userId = this.userFactory.CreateId(this.currentUserService.UserId);
         UserAggregate user = await this.userRepository.FindByIdAsync(userId, cancellationToken)
             ?? throw new UserNotFoundException();
 
         user.RevokeRefreshToken(request.RevokeToken);
-
         await this.userRepository.UpdateAsync(user, cancellationToken);
     }
 }

@@ -24,7 +24,7 @@ public static partial class Constants {
         public readonly static Int32 ChildCount = Random.Shared.Next(MinimumChildCount, MaximumChildCount);
 
         public static CategoryAggregate CreateValidCategory() {
-            return CategoryTestFactory.CreateValidCategoryAggregate();
+            return CategoryTestFactory.CreateCategory();
         }
     }
 }

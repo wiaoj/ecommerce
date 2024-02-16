@@ -2,12 +2,12 @@
 using ecommerce.Domain.Aggregates.CategoryAggregate.Events;
 using ecommerce.UnitTests.Common.Categories;
 
-namespace ecommerce.Domain.UnitTests.Aggregates.CategoryAggregateTests;
+namespace ecommerce.Domain.UnitTests.Aggregates.CategoryAggregates.CategoryAggregateTests;
 public partial class CategoryAggregateTests {
     [Fact]
     public void Delete_ShouldRaise_CategoryDeletedDomainEvent() {
         // Arrange
-        CategoryAggregate category = CategoryTestFactory.CreateValidCategoryAggregate();
+        CategoryAggregate category = CategoryTestFactory.CreateCategory();
 
         // Act
         category.Delete();

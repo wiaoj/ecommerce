@@ -1,36 +1,22 @@
-﻿namespace ecommerce.Domain.Aggregates.UserAggregate.ValueObjects;
-public sealed record FullName {
+﻿using ecommerce.Domain.Aggregates.UserAggregate.Constants;
+using ecommerce.Domain.Aggregates.UserAggregate.Exceptions;
+using ecommerce.Domain.Extensions;
+
+namespace ecommerce.Domain.Aggregates.UserAggregate.ValueObjects;
+public sealed partial record FullName {
     public String FirstName { get; private set; }
-    public List<String> MiddleNames { get; private set; } = [];
     public String LastName { get; private set; }
 
     private FullName() { }
-    internal FullName(String firstName, IEnumerable<String>? middleNames, String lastName) {
-        this.FirstName = ValidateName(firstName, nameof(this.FirstName));
-        this.LastName = ValidateName(lastName, nameof(this.LastName));
+    internal FullName(String firstName, String lastName) {
+        if(firstName is null || UserConstants.Regexes.FirstNameRegex().IsMatch(firstName).IsFalse())
+            throw new InvalidFirstNameFormatException (firstName ?? String.Empty);
 
-        if(middleNames != null) {
-            foreach(String middleName in middleNames) {
-                this.MiddleNames.Add(ValidateName(middleName, "MiddleName", false));
-            }
-        }
-    }
+        if(lastName is null || UserConstants.Regexes.LastNameRegex().IsMatch(lastName).IsFalse())
+            throw new InvalidLastNameFormatException(lastName ?? String.Empty);
 
-    public static FullName Create(String firstName, String lastName) {
-        return new(firstName, null, lastName);
-    }
-
-    private static String ValidateName(String name, String propertyName) {
-        return ValidateName(name, propertyName, true);
-    }
-
-    private static String ValidateName(String name, String propertyName, Boolean required) {
-        if(required)
-            ArgumentException.ThrowIfNullOrWhiteSpace(name);
-
-        return name.Any(Char.IsDigit)
-            ? throw new ArgumentException($"{propertyName} cannot contain numbers.", propertyName)
-            : name?.Trim() ?? String.Empty;
+        this.FirstName = firstName;
+        this.LastName = lastName;
     }
 
     public sealed override String ToString() {
@@ -38,18 +24,10 @@ public sealed record FullName {
     }
 
     public String ToWesternFormat() {
-        return this.MiddleNames.Count is 0
-            ? ConcatenateFirstAndLastName()
-            : $"{this.FirstName} {String.Join(" ", this.MiddleNames)} {this.LastName}";
+        return $"{this.FirstName} {this.LastName}";
     }
 
     public String ToEasternFormat() {
-        return this.MiddleNames.Count is 0
-            ? ConcatenateFirstAndLastName()
-            : $"{this.LastName} {this.FirstName} {String.Join(" ", this.MiddleNames)}";
-    }
-
-    private String ConcatenateFirstAndLastName() {
-        return $"{this.FirstName} {this.LastName}";
+        return $"{this.LastName} {this.FirstName}";
     }
 }

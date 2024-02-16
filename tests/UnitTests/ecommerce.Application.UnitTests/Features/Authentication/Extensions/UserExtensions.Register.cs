@@ -6,7 +6,6 @@ namespace ecommerce.Application.UnitTests.Features.Authentication.Extensions;
 public static partial class UserExtensions {
     public static void VerifyUserCreationFromCommand(this UserAggregate user, RegisterCommand command) {
         user.FullName.FirstName.Should().Be(command.FirstName);
-        user.FullName.MiddleNames.Should().BeEmpty(); //For now, we don't have middle names
         user.FullName.LastName.Should().Be(command.LastName);
         user.Email.Value.Should().Be(command.Email);
         user.PhoneNumber.Value.Should().Be(command.PhoneNumber);

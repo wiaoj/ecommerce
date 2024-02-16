@@ -11,10 +11,10 @@ internal static class FakerExtensions {
                                                           Int32 childCategoryCount,
                                                           Int32 productCount) {
         Func<Faker, CategoryAggregate> func = faker => new CategoryAggregate(
-            hasParentCategory ? CategoryTestFactory.CreateValidCategoryId(faker.Random.Guid()) : null,
-            CategoryTestFactory.CreateValidCategoryId(),
-            CategoryTestFactory.CreateValidCategoryName(faker.Commerce.Categories(1)[0]),
-            [.. Enumerable.Range(0, childCategoryCount).Select(_ => CategoryTestFactory.CreateValidCategoryId(faker.Random.Guid()))],
+            hasParentCategory ? CategoryTestFactory.CreateCategoryId(faker.Random.Guid()) : null,
+            CategoryTestFactory.CreateCategoryId(),
+            CategoryTestFactory.CreateCategoryName(faker.Commerce.Categories(1)[0]),
+            [.. Enumerable.Range(0, childCategoryCount).Select(_ => CategoryTestFactory.CreateCategoryId(faker.Random.Guid()))],
             [.. Enumerable.Range(0, productCount).Select(_ => ProductTestFactory.CreateValidProductId(faker.Random.Guid()))]);
         return faker.CustomInstantiator(func);
     }

@@ -5,12 +5,12 @@ using ecommerce.Domain.Aggregates.ProductAggregate.ValueObjects;
 using ecommerce.UnitTests.Common.Categories;
 using ecommerce.UnitTests.Common.Products;
 
-namespace ecommerce.Domain.UnitTests.Aggregates.CategoryAggregateTests;
+namespace ecommerce.Domain.UnitTests.Aggregates.CategoryAggregates.CategoryAggregateTests;
 public partial class CategoryAggregateTests {
     [Fact]
     public void RemoveProduct_WhenProductIdIsValid_RemovesProductSuccessfully() {
         // Arrange
-        CategoryAggregate category = CategoryTestFactory.CreateValidCategoryAggregateWithProducts();
+        CategoryAggregate category = CategoryTestFactory.CreateCategoryWithProducts();
         ProductId productId = category.ProductIds.First();
 
         // Act
@@ -23,7 +23,7 @@ public partial class CategoryAggregateTests {
     [Fact]
     public void RemoveProduct_WhenProductIdDoesNotExist_ThrowsProductNotInCategoryException() {
         // Arrange
-        CategoryAggregate category = CategoryTestFactory.CreateValidCategoryAggregate();
+        CategoryAggregate category = CategoryTestFactory.CreateCategory();
         ProductId nonExistentProductId = ProductTestFactory.CreateValidProductId();
 
         // Act & Assert
@@ -35,7 +35,7 @@ public partial class CategoryAggregateTests {
     [Fact]
     public void RemoveProduct_WhenProductRemoved_RaisesProductRemovedFromCategoryDomainEvent() {
         // Arrange
-        CategoryAggregate category = CategoryTestFactory.CreateValidCategoryAggregateWithProducts();
+        CategoryAggregate category = CategoryTestFactory.CreateCategoryWithProducts();
         ProductId existingProductId = category.ProductIds.First();
 
         // Act

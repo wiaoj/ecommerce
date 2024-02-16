@@ -2,6 +2,6 @@
 
 namespace ecommerce.Application.Exceptions;
 public sealed class ValidationException(IDictionary<String, String[]> errors) 
-    : WApplicationException(ErrorTypes.Validation, "Input Validation Failed") {
+    : WApplicationException(ExceptionCategories.Validation, "Input Validation Failed") {
     public IDictionary<String, String[]> Errors => errors;
 }

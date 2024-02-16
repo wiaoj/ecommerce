@@ -9,7 +9,7 @@ public partial class CategoryAggregateTests {
     [Fact]
     public void SetParentCategory_WhenCategoryIsSetAsOwnParent_ThrowsCategoryCannotBeOwnParentException() {
         // Arrange
-        CategoryAggregate category = CategoryTestFactory.CreateValidCategoryAggregate();
+        CategoryAggregate category = CategoryTestFactory.CreateCategory();
         CategoryId categoryId = category.Id;
 
         // Act & Assert
@@ -21,7 +21,7 @@ public partial class CategoryAggregateTests {
     [Fact]
     public void SetParentCategory_WhenParentCategoryIdIsAlreadySet_ThrowsParentCategoryAlreadySetException() {
         // Arrange
-        CategoryAggregate category = CategoryTestFactory.CreateValidCategoryAggregate(true);
+        CategoryAggregate category = CategoryTestFactory.CreateCategory(true);
         CategoryId parentCategoryId = category.ParentId!;
 
         // Act & Assert
@@ -33,8 +33,8 @@ public partial class CategoryAggregateTests {
     [Fact]
     public void SetParentCategory_WhenParentCategoryIdIsValid_SetsParentCategorySuccessfully() {
         // Arrange
-        CategoryAggregate category = CategoryTestFactory.CreateValidCategoryAggregate();
-        CategoryId parentCategoryId = CategoryTestFactory.CreateValidParentCategoryId();
+        CategoryAggregate category = CategoryTestFactory.CreateCategory();
+        CategoryId parentCategoryId = CategoryTestFactory.CreateParentCategoryId();
 
         // Act
         category.SetParentCategory(parentCategoryId);
@@ -47,9 +47,9 @@ public partial class CategoryAggregateTests {
     [Fact]
     public void SetParentCategory_WhenParentCategoryIsChanged_RaisesParentCategoryRemovedAndChangedDomainEvents() {
         // Arrange
-        CategoryAggregate category = CategoryTestFactory.CreateValidCategoryAggregate(true);
+        CategoryAggregate category = CategoryTestFactory.CreateCategory(true);
         CategoryId oldParentCategoryId = category.ParentId!;
-        CategoryId newParentCategoryId = CategoryTestFactory.CreateValidParentCategoryId();
+        CategoryId newParentCategoryId = CategoryTestFactory.CreateParentCategoryId();
 
         // Act
         category.SetParentCategory(newParentCategoryId);

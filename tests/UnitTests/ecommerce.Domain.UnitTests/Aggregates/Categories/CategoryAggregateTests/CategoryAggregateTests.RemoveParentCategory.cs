@@ -4,12 +4,12 @@ using ecommerce.Domain.Aggregates.CategoryAggregate.Exceptions;
 using ecommerce.Domain.Aggregates.CategoryAggregate.ValueObjects;
 using ecommerce.UnitTests.Common.Categories;
 
-namespace ecommerce.Domain.UnitTests.Aggregates.CategoryAggregateTests;
+namespace ecommerce.Domain.UnitTests.Aggregates.CategoryAggregates.CategoryAggregateTests;
 public partial class CategoryAggregateTests {
     [Fact]
     public void RemoveParentCategory_WhenParentIdIsNotNull_RemovesParentCategorySuccessfully() {
         // Arrange
-        CategoryAggregate category = CategoryTestFactory.CreateValidCategoryAggregate(true);
+        CategoryAggregate category = CategoryTestFactory.CreateCategory(true);
 
         // Act
         category.RemoveParentCategory();
@@ -23,7 +23,7 @@ public partial class CategoryAggregateTests {
     [Fact]
     public void RemoveParentCategory_WhenValidCategoryId_RaisesParentCategoryRemovedDomainEvent() {
         // Arrange
-        CategoryAggregate category = CategoryTestFactory.CreateValidCategoryAggregate(true);
+        CategoryAggregate category = CategoryTestFactory.CreateCategory(true);
         CategoryId parentCategoryId = category.ParentId!;
 
         // Act
@@ -41,7 +41,7 @@ public partial class CategoryAggregateTests {
     [Fact]
     public void RemoveParentCategory_WhenParentIdIsNull_ThrowsParentCategoryNotSetException() {
         // Arrange
-        CategoryAggregate category = CategoryTestFactory.CreateValidCategoryAggregate();
+        CategoryAggregate category = CategoryTestFactory.CreateCategory();
 
         // Act & Assert
         category.Invoking(x => x.RemoveParentCategory())

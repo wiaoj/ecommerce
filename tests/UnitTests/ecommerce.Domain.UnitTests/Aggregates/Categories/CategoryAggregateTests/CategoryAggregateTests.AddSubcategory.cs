@@ -4,13 +4,13 @@ using ecommerce.Domain.Aggregates.CategoryAggregate.Exceptions;
 using ecommerce.Domain.Aggregates.CategoryAggregate.ValueObjects;
 using ecommerce.UnitTests.Common.Categories;
 
-namespace ecommerce.Domain.UnitTests.Aggregates.CategoryAggregateTests;
+namespace ecommerce.Domain.UnitTests.Aggregates.CategoryAggregates.CategoryAggregateTests;
 public partial class CategoryAggregateTests {
     [Fact]
     public void AddSubcategory_WhenValidCategoryId_AddsSubcategorySuccessfully() {
         // Arrange
-        CategoryAggregate category = CategoryTestFactory.CreateValidCategoryAggregate();
-        CategoryId subcategoryId = CategoryTestFactory.CreateValidSubcategoryId();
+        CategoryAggregate category = CategoryTestFactory.CreateCategory();
+        CategoryId subcategoryId = CategoryTestFactory.CreateSubcategoryId();
 
         // Act
         category.AddSubcategory(subcategoryId);
@@ -23,7 +23,7 @@ public partial class CategoryAggregateTests {
     [Fact]
     public void AddSubcategory_WhenCategoryIsSelfReferencing_ThrowsSelfReferencingCategoryException() {
         // Arrange
-        CategoryAggregate category = CategoryTestFactory.CreateValidCategoryAggregate();
+        CategoryAggregate category = CategoryTestFactory.CreateCategory();
 
         // Act & Assert
         category.Invoking(x => x.AddSubcategory(category.Id))
@@ -34,8 +34,8 @@ public partial class CategoryAggregateTests {
     [Fact]
     public void AddSubcategory_WhenSubcategoryAlreadyExists_ThrowsSubcategoryAlreadyExistsException() {
         // Arrange
-        CategoryAggregate category = CategoryTestFactory.CreateValidCategoryAggregate();
-        CategoryId subcategoryId = CategoryTestFactory.CreateValidSubcategoryId();
+        CategoryAggregate category = CategoryTestFactory.CreateCategory();
+        CategoryId subcategoryId = CategoryTestFactory.CreateSubcategoryId();
         category.AddSubcategory(subcategoryId);
 
         // Act & Assert
@@ -47,8 +47,8 @@ public partial class CategoryAggregateTests {
     [Fact]
     public void AddSubcategory_WhenValidCategoryId_AddsToSubcategoryIds() {
         // Arrange
-        CategoryAggregate category = CategoryTestFactory.CreateValidCategoryAggregate();
-        CategoryId subcategoryId = CategoryTestFactory.CreateValidSubcategoryId();
+        CategoryAggregate category = CategoryTestFactory.CreateCategory();
+        CategoryId subcategoryId = CategoryTestFactory.CreateSubcategoryId();
 
         // Act
         category.AddSubcategory(subcategoryId);
@@ -60,8 +60,8 @@ public partial class CategoryAggregateTests {
     [Fact]
     public void AddSubcategory_WhenValidCategoryId_RaisesSubcategoryAddedDomainEvent() {
         // Arrange
-        CategoryAggregate category = CategoryTestFactory.CreateValidCategoryAggregate();
-        CategoryId subcategoryId = CategoryTestFactory.CreateValidSubcategoryId();
+        CategoryAggregate category = CategoryTestFactory.CreateCategory();
+        CategoryId subcategoryId = CategoryTestFactory.CreateSubcategoryId();
 
         // Act
         category.AddSubcategory(subcategoryId);

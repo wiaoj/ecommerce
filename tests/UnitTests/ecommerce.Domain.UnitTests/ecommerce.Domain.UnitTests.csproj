@@ -37,4 +37,8 @@
     <ProjectReference Include="..\ecommerce.UnitTests.Common\ecommerce.UnitTests.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Aggregates\Categories\ValueObjectTests\" />
+  </ItemGroup>
+
 </Project>

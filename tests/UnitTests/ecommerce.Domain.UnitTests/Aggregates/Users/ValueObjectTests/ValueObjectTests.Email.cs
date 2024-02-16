@@ -2,15 +2,15 @@
 using ecommerce.Domain.Aggregates.UserAggregate.ValueObjects;
 using ecommerce.UnitTests.Common.Users;
 
-namespace ecommerce.Domain.UnitTests.Aggregates.UserAggregateTests;
-public sealed partial class UserAggregateTests {
+namespace ecommerce.Domain.UnitTests.Aggregates.Users.ValueObjectTests;
+public sealed partial class ValueObjectTests {
     [Fact]
     public void CreateEmail_WithValidValue_ShouldNotBeNullAndNotConfirmed() {
         // Arrange
         String validValue = "test@test.com";
 
         // Act
-        Email email = UserTestFactory.CreateExpectedEmail(validValue);
+        Email email = UserTestFactory.CreateEmail(validValue);
 
         // Assert
         email.Should().NotBeNull();
@@ -24,16 +24,16 @@ public sealed partial class UserAggregateTests {
     [InlineData(null)]
     public void CreateEmail_WithInvalidValue_ShouldThrow(String? invalidValue) {
         // Act
-        Func<Email> emailFunc = () => UserTestFactory.CreateExpectedEmail(invalidValue!);
+        Func<Email> emailFunc = () => UserTestFactory.CreateEmail(invalidValue!);
 
         // Assert
-        emailFunc.Should().Throw<InvalidEmailException>();
+        emailFunc.Should().Throw<InvalidEmailFormatException>();
     }
 
     [Fact]
     public void ConfirmEmail_WithValidValue_ShouldBeConfirmed() {
         // Arrange
-        Email email = UserTestFactory.CreateValidEmail();
+        Email email = UserTestFactory.CreateEmail();
 
         // Act
         Email confirmedEmail = email.Confirm();

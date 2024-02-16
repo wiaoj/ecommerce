@@ -1,4 +1,5 @@
-﻿using ecommerce.Domain.Aggregates.UserAggregate.Exceptions;
+﻿using ecommerce.Domain.Aggregates.UserAggregate.Constants;
+using ecommerce.Domain.Aggregates.UserAggregate.Exceptions;
 using ecommerce.Domain.Extensions;
 
 namespace ecommerce.Domain.Aggregates.UserAggregate.ValueObjects;
@@ -10,14 +11,17 @@ public sealed record PhoneNumber {
     internal PhoneNumber(String? value) {
         if(value.IsNullOrWhiteSpaces())
             value = null;
-        
+
+        if(value is not null && UserConstants.Regexes.EmailRegex().IsMatch(value))
+            throw new InvalidPhoneNumberException(value);
+
         this.Value = value;
         this.IsConfirmed = false;
     }
 
     internal PhoneNumber Confirm() {
         if(this.Value.IsNullOrEmpty())
-            throw new InvalidPhoneNumberException(this.Value);
+            throw new PhoneNumberNotRegisteredException();
 
         return this with {
             IsConfirmed = true

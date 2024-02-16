@@ -1,7 +1,7 @@
-﻿using ecommerce.Domain.Aggregates.UserAggregate.Constans;
+﻿using ecommerce.Domain.Aggregates.UserAggregate.Constants;
 using ecommerce.Domain.Common.Exceptions;
 using ecommerce.Domain.Extensions;
 
 namespace ecommerce.Domain.Aggregates.UserAggregate.Exceptions;
-public sealed class InvalidPhoneNumberException(string? phoneNumber)
-        : DomainValidationException(UserConstans.Exceptions.InvalidPhoneNumberMessage.Format(phoneNumber));
+public sealed class InvalidPhoneNumberException(String? phoneNumber)
+        : DomainValidationException(UserConstants.ErrorMessages.PhoneNumberInvalidFormat.Format(phoneNumber));

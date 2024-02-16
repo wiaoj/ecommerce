@@ -4,13 +4,13 @@ using ecommerce.Domain.Aggregates.CategoryAggregate.Exceptions;
 using ecommerce.Domain.Aggregates.CategoryAggregate.ValueObjects;
 using ecommerce.UnitTests.Common.Categories;
 
-namespace ecommerce.Domain.UnitTests.Aggregates.CategoryAggregateTests;
+namespace ecommerce.Domain.UnitTests.Aggregates.CategoryAggregates.CategoryAggregateTests;
 public partial class CategoryAggregateTests {
     [Fact]
     public void RemoveSubCategory_WhenSubCategoryIdDoesNotExist_ThrowsSubcategoryNotFoundException() {
         // Arrange
-        CategoryAggregate category = CategoryTestFactory.CreateValidCategoryAggregate();
-        CategoryId nonExistentCategoryId = CategoryTestFactory.CreateValidSubcategoryId();
+        CategoryAggregate category = CategoryTestFactory.CreateCategory();
+        CategoryId nonExistentCategoryId = CategoryTestFactory.CreateSubcategoryId();
 
         // Act & Assert
         category.Invoking(x => x.RemoveSubcategory(nonExistentCategoryId))
@@ -21,7 +21,7 @@ public partial class CategoryAggregateTests {
     [Fact]
     public void RemoveSubCategory_WhenExistingSubCategoryId_RemovesSubCategorySuccessfully() {
         // Arrange
-        CategoryAggregate category = CategoryTestFactory.CreateValidCategoryAggregate(1);
+        CategoryAggregate category = CategoryTestFactory.CreateCategory(1);
         CategoryId subcategoryId = category.SubcategoryIds.First();
 
         // Act
@@ -34,7 +34,7 @@ public partial class CategoryAggregateTests {
     [Fact]
     public void RemoveSubCategory_WhenValidCategoryId_RaisesSubcategoryRemovedDomainEvent() {
         // Arrange
-        CategoryAggregate category = CategoryTestFactory.CreateValidCategoryAggregate(1);
+        CategoryAggregate category = CategoryTestFactory.CreateCategory(1);
         CategoryId subcategoryId = category.SubcategoryIds.First();
 
         // Act

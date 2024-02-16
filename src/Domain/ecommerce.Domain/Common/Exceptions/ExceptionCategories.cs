@@ -1,16 +1,16 @@
 ﻿namespace ecommerce.Domain.Common.Exceptions;
 //TODO: refactor -- Ardalis.SmartEnum
-public enum ErrorTypes {
+public enum ExceptionCategories {
     Unknown,
     Validation,
     NotFound,
     Conflict,
     UnAuthorization, 
-    DomainViolation
+    BusinessRuleViolation
 }
 
 public static class ErrorTypeExtensions {
-    public static string ToErrorName(this ErrorTypes errorType) {
+    public static string ToErrorName(this ExceptionCategories errorType) {
         return errorType.ToString();
     }
 }

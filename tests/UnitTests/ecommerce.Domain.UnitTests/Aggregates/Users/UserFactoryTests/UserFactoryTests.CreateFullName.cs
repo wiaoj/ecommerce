@@ -28,7 +28,7 @@ public partial class UserFactoryTests {
         this.userFactory.Invoking(x => x.CreateFullName(firstName!, lastName))
             .Should()
             .ThrowExactly<InvalidFirstNameFormatException >()
-            .WithMessage(UserConstants.ErrorMessages.FirstNameInvalidCharacters.Format(firstName));
+            .WithMessage(UserConstants.ErrorMessages.InvalidFirstNameCharacters.Format(firstName));
     }
 
     [Theory]

@@ -88,7 +88,15 @@ internal sealed class ApplicationDistributedCache : IApplicationDistributedCache
         await this.distributedCache.SetAsync(key, bytes, cancellationToken);
     }
 
-    public Task RemoveKeyAsync(String key, CancellationToken cancellationToken) {
-        return RemoveAsync(key, cancellationToken);
+    public async Task RemoveKeyAsync(String key, CancellationToken cancellationToken) {
+        String[]? foundedKeys = await GetKeysAsync(key, cancellationToken);
+
+        if(foundedKeys is null)
+            return;
+
+        foreach(var foundedKey in foundedKeys) {
+            await RemoveAsync(foundedKey, cancellationToken);
+        }
+        await RemoveAsync(key, cancellationToken);
     }
 }

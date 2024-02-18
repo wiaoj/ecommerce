@@ -1,6 +1,4 @@
-﻿using ecommerce.Application.Common.Extensions;
-using ecommerce.Application.Common.Guard;
-using ecommerce.Application.Common.Repositories;
+﻿using ecommerce.Application.Common.Repositories;
 using ecommerce.Application.Exceptions.Categories;
 using ecommerce.Domain.Aggregates.CategoryAggregate;
 using ecommerce.Domain.Aggregates.CategoryAggregate.Events;
@@ -10,25 +8,26 @@ using MediatR;
 namespace ecommerce.Application.Features.Categories.Events;
 internal sealed class CategoryDeletedDomainEventHandler : INotificationHandler<CategoryDeletedDomainEvent> {
     private readonly ICategoryRepository categoryRepository;
-    private readonly IGuardClause guardClause;
 
-    public CategoryDeletedDomainEventHandler(ICategoryRepository categoryRepository, IGuardClause guardClause) {
+    public CategoryDeletedDomainEventHandler(ICategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
-        this.guardClause = guardClause;
     }
 
     public Task Handle(CategoryDeletedDomainEvent notification, CancellationToken cancellationToken) {
         Task[] tasks = [RemoveDeletedCategoryFromParent(notification, cancellationToken),
-            DetachChildrenFromDeletedCategory(notification, cancellationToken)];
+                        DetachChildrenFromDeletedCategory(notification, cancellationToken)];
         return Task.WhenAll(tasks);
     }
 
     private async Task RemoveDeletedCategoryFromParent(CategoryDeletedDomainEvent notification, CancellationToken cancellationToken) {
-        if(notification.Category.ParentId is null)
+        if(notification.Category.ParentId.IsNull())
             return;
 
         CategoryAggregate? parentCategory = await this.categoryRepository.FindByIdAsync(notification.Category.ParentId, cancellationToken);
-        this.guardClause.ThrowIfNull(parentCategory, new CategoryNotFoundException(notification.Category.ParentId));
+
+        if(parentCategory.IsNull())
+            throw new CategoryNotFoundException(notification.Category.ParentId);
+
         parentCategory.RemoveSubcategory(notification.Category.Id);
     }
 

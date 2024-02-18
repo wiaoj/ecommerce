@@ -4,7 +4,7 @@ using System.Security.Claims;
 
 namespace ecommerce.Infrastructure.Security;
 internal sealed class CurrentUserProvider : ICurrentUserProvider {
-    private const String UNKNOWN = "UNKNOWN";
+    private const String UNKNOWN = nameof(UNKNOWN);
     private readonly ClaimsPrincipal? claimsPrincipal;
     public String UserId => this.claimsPrincipal?.FindFirstValue(ClaimTypes.NameIdentifier) ?? UNKNOWN;
     public String UserName => this.claimsPrincipal?.FindFirstValue(ClaimTypes.Name) ?? UNKNOWN;

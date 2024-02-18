@@ -40,7 +40,7 @@ public static class DependencyInjection {
         return services;
     }
 
-    private static void AddFactories(this IServiceCollection services) { 
+    private static void AddFactories(this IServiceCollection services) {
         services.AddSingleton<ICategoryFactory, CategoryFactory>();
         services.AddSingleton<IProductFactory, ProductFactory>();
         services.AddSingleton<IVariantFactory, VariantFactory>();

@@ -28,7 +28,7 @@ public class DomainEventPublisher : INotificationPublisher {
         }
     }
 
-    private void LogDomainEvent(IDomainEvent eventInstance, string messagePrefix) {
+    private void LogDomainEvent(IDomainEvent eventInstance, String messagePrefix) {
         this.logger.LogInformation("{messagePrefix} domain event {eventInstanceId} of type {eventInstanceName}",
                                    messagePrefix,
                                    eventInstance.Id,

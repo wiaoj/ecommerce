@@ -1,13 +1,13 @@
 ﻿using ecommerce.Application.Common.Interfaces;
-using ecommerce.Application.Features.Authentication.Common;
-using ecommerce.Domain.Aggregates.UserAggregate.ValueObjects;
-using ecommerce.Domain.Aggregates.UserAggregate;
-using MediatR;
 using ecommerce.Application.Common.Repositories;
-using ecommerce.Domain.Aggregates.UserAggregate.Interfaces;
-using ecommerce.Domain.Extensions;
+using ecommerce.Application.Features.Authentication.Common;
 using ecommerce.Application.Features.Authentication.Exceptions;
+using ecommerce.Domain.Aggregates.UserAggregate;
+using ecommerce.Domain.Aggregates.UserAggregate.Interfaces;
+using ecommerce.Domain.Aggregates.UserAggregate.ValueObjects;
 using ecommerce.Domain.Common;
+using ecommerce.Domain.Extensions;
+using MediatR;
 
 namespace ecommerce.Application.Features.Authentication.Queries.Login;
 internal sealed class LoginQueryHandler : IRequestHandler<LoginQuery, AuthenticationResponse> {

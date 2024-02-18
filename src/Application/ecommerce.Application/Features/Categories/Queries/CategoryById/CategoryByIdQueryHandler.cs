@@ -1,5 +1,6 @@
 ﻿using ecommerce.Application.Common.Repositories;
-using ecommerce.Application.Exceptions.Categories;
+using ecommerce.Application.Features.Categories.Exceptions;
+using ecommerce.Application.Features.Categories.MappingExtensions;
 using ecommerce.Domain.Aggregates.CategoryAggregate;
 using ecommerce.Domain.Aggregates.CategoryAggregate.ValueObjects;
 using ecommerce.Domain.Extensions;
@@ -22,13 +23,11 @@ internal sealed class CategoryByIdQueryHandler : IRequestHandler<CategoryByIdQue
         if(category.IsNull())
             throw new CategoryNotFoundException(id);
 
-        CategoryByIdResult result = CategoryByIdResult.FromCategoryAggregate(category);
-
+        List<CategoryAggregate> subcategories = [];
         if(category.SubcategoryIds.Count.IsNotZero()) {
-            List<CategoryAggregate> children = await this.categoryRepository.FindCategoriesByParentIdAsync(id, false, cancellationToken);
-            result.AddSubCategories(children);
+            subcategories.AddRange(await this.categoryRepository.FindCategoriesByParentIdAsync(id, false, cancellationToken));
         }
 
-        return result;
+        return category.ToCategoryByIdResult(subcategories);
     }
 }

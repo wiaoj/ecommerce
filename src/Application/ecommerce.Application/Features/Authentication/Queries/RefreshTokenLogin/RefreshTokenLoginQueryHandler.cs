@@ -1,11 +1,11 @@
 ﻿using ecommerce.Application.Common.Interfaces;
-using ecommerce.Application.Features.Authentication.Common;
-using ecommerce.Domain.Aggregates.UserAggregate.ValueObjects;
-using ecommerce.Domain.Aggregates.UserAggregate;
-using MediatR;
 using ecommerce.Application.Common.Repositories;
+using ecommerce.Application.Features.Authentication.Common;
 using ecommerce.Application.Features.Authentication.Exceptions;
+using ecommerce.Domain.Aggregates.UserAggregate;
+using ecommerce.Domain.Aggregates.UserAggregate.ValueObjects;
 using ecommerce.Domain.Common;
+using MediatR;
 
 namespace ecommerce.Application.Features.Authentication.Queries.RefreshTokenLogin;
 internal sealed class RefreshTokenLoginQueryHandler : IRequestHandler<RefreshTokenLoginQuery, AuthenticationResponse> {

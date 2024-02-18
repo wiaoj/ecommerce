@@ -1,2 +1,2 @@
 namespace ecommerce.Application.Common.Interfaces;
-public interface IHasTransaction { }
+public interface IHasTransaction;

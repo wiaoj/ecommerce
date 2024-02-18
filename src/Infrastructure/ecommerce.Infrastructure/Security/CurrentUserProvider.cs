@@ -4,17 +4,18 @@ using System.Security.Claims;
 
 namespace ecommerce.Infrastructure.Security;
 internal sealed class CurrentUserProvider : ICurrentUserProvider {
-    private const String UNKNOWN = nameof(UNKNOWN);
-    private readonly ClaimsPrincipal? claimsPrincipal;
-    public String UserId => this.claimsPrincipal?.FindFirstValue(ClaimTypes.NameIdentifier) ?? UNKNOWN;
-    public String UserName => this.claimsPrincipal?.FindFirstValue(ClaimTypes.Name) ?? UNKNOWN;
-    public String UserIpAddress { get; }
+    public String? UserId { get; }
+    public String? UserName { get; }
+    public String? UserIpAddress { get; }
 
     public CurrentUserProvider(IHttpContextAccessor httpContextAccessor) {
-       ArgumentNullException.ThrowIfNull(httpContextAccessor);
+        ArgumentNullException.ThrowIfNull(httpContextAccessor);
+        ArgumentNullException.ThrowIfNull(httpContextAccessor.HttpContext);
 
-        this.claimsPrincipal = httpContextAccessor.HttpContext?.User;
-        this.UserIpAddress = httpContextAccessor.HttpContext?.Connection?.RemoteIpAddress?.ToString() ?? UNKNOWN;
+        var claimsPrincipal = httpContextAccessor.HttpContext.User;
+        this.UserId = claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier);
+        this.UserName = claimsPrincipal.FindFirstValue(ClaimTypes.Name);
+        this.UserIpAddress = httpContextAccessor.HttpContext.Connection.RemoteIpAddress?.ToString();
     }
 
     public async Task<Boolean> AuthorizeAsync(String policy) {

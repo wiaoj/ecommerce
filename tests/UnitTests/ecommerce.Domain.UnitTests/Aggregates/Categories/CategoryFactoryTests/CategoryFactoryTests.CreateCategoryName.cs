@@ -1,13 +1,13 @@
 ﻿using ecommerce.Domain.Aggregates.CategoryAggregate.Exceptions;
 using ecommerce.Domain.Aggregates.CategoryAggregate.ValueObjects;
+using ecommerce.UnitTests.Common.Categories;
 
 namespace ecommerce.Domain.UnitTests.Aggregates.Categories.CategoryFactoryTests;
 public partial class CategoryFactoryTests {
     [Theory]
-    [InlineData("   Category Name", "Category Name")]
-    [InlineData("Category Name  ", "Category Name")]
-    [InlineData("   Category Name   ", "Category Name")]
-    public void CreateCategoryName_WithTrimmedString_ReturnsTrimmedCategoryName(String name, String expected) {
+    [InlineData("Valid Category Name", "Valid Category Name")]
+    [InlineData("CategoryName", "CategoryName")]
+    public void CreateCategoryName_WhenGivenValidString_ShouldReturnCategoryNameWithExpectedValue(String name, String expected) {
         // Act
         CategoryName categoryName = this.factory.CreateCategoryName(name);
 
@@ -15,12 +15,14 @@ public partial class CategoryFactoryTests {
         categoryName.Should().NotBeNull();
         categoryName.Value.Should().Be(expected);
     }
-
+ 
     [Theory]
     [InlineData("")]
     [InlineData(" ")]
     [InlineData(null)]
-    public void CreateCategoryName_WithInvalidString_ThrowsInvalidCategoryNameException(String? name) {
+    [InlineData("Invalid category name!")]
+    [InlineData("Invalid category name2")]
+    public void CreateCategoryName_WhenGivenInvalidString_ShouldThrowInvalidCategoryNameException(String? name) {
         // Act & Assert
         this.factory.Invoking(x => x.CreateCategoryName(name!)).Should().ThrowExactly<InvalidCategoryNameException>();
     }

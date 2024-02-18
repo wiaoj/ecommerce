@@ -12,9 +12,7 @@ internal sealed class AuthorizationBehavior<TRequest> : IRequestPreProcessor<TRe
     }
 
     public async Task Process(TRequest request, CancellationToken cancellationToken) {
-        Boolean userIsExists = this.currentUserProvider.UserId.IsNotNullOrEmpty();
-
-        if(userIsExists.IsFalse())
+        if(this.currentUserProvider.UserId.IsNullOrEmpty())
             throw new UnauthorizeException("Unauthorize");
 
         await Task.CompletedTask;

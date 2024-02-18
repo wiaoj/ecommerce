@@ -1,14 +1,14 @@
 ﻿namespace ecommerce.Domain.Aggregates.CategoryAggregate.Constants;
-internal static partial class CategoryConstants {
+public partial class CategoryConstants {
     public struct ErrorMessages {
-        public const String CategoryCannotBeOwnParent = "A category cannot be its own parent";
-        public const String ParentCategoryAlreadySet = "The specified parent category ID '{0}' is already set as the parent of this category";
-        public const String ParentCategoryNotSet = "Cannot remove parent category because it is not set";
-        public const String SelfReferencingCategory = "A category cannot be added as a child to itself";
-        public const String SubcategoryAlreadyExists = "This subcategory is already added to the category";
-        public const String SubcategoryNotFound = "Subcategory with ID {0} could not be removed because it does not exist";
-        public const String ProductAlreadyInCategory = "Product with ID {0} is already added to the category";
-        public const String ProductNotInCategory = "Product with ID {0} does not exist in the category";
-        public const String InvalidCategoryName = "Invalid category name: {0}";
+        public const String CategoryCannotBeOwnParent = "A category cannot be its own parent.";
+        public const String ParentCategoryAlreadySet = "The parent category with ID '{0}' is already set for this category.";
+        public const String ParentCategoryNotSet = "The parent category cannot be removed because it has not been set.";
+        public const String SelfReferencingCategory = "A category cannot be added as a subcategory to itself.";
+        public const String SubcategoryAlreadyExists = "This subcategory is already included in the category.";
+        public const String SubcategoryNotFound = "The subcategory with ID '{0}' could not be removed because it was not found.";
+        public const String ProductAlreadyInCategory = "The product with ID '{0}' is already included in the category.";
+        public const String ProductNotInCategory = "The product with ID '{0}' was not found in the category.";
+        public const String InvalidCategoryName = "The category name '{0}' is invalid.";
     }
 }

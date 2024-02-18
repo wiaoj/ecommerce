@@ -8,9 +8,7 @@ internal static class VariantValidatorExtensions {
     public static IRuleBuilderOptions<T, String> VariantNotExist<T>(this IRuleBuilder<T, String> ruleBuilder,
                                                                     IVariantRepository variantRepository) {
 
-        async Task<Boolean> predicate(String name, CancellationToken cancellationToken) {
-            return await variantRepository.ExistsByNameAsync(name, cancellationToken).IsFalse();
-        }
+        async Task<Boolean> predicate(String name, CancellationToken cancellationToken) => await variantRepository.ExistsByNameAsync(name, cancellationToken).IsFalse();
 
         return ruleBuilder.MustAsync(predicate).WithMessage("Variant does not exist.");
     }
@@ -18,14 +16,12 @@ internal static class VariantValidatorExtensions {
     public static IRuleBuilderOptions<T, Guid> VariantExist<T>(this IRuleBuilder<T, Guid> ruleBuilder,
                                                                IVariantRepository variantRepository) {
 
-        async Task<Boolean> predicate(Guid id, CancellationToken cancellationToken) {
-            return await variantRepository.ExistsAsync(VariantId.Create(id), cancellationToken);
-        }
+        async Task<Boolean> predicate(Guid id, CancellationToken cancellationToken) => await variantRepository.ExistsAsync(VariantId.Create(id), cancellationToken);
 
         return ruleBuilder.MustAsync(predicate).WithMessage("Variant Id does not exist.");
     }
 
-    public static IRuleBuilderOptions<T, string> MustNotHaveExistingVariantOption<T>(this IRuleBuilder<T, string> ruleBuilder,
+    public static IRuleBuilderOptions<T, String> MustNotHaveExistingVariantOption<T>(this IRuleBuilder<T, String> ruleBuilder,
                                                                                      Func<T, VariantId> variantIdSelector,
                                                                                      IVariantRepository variantRepository) {
 

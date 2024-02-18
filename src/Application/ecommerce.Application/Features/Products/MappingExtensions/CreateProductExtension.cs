@@ -21,7 +21,7 @@ internal static class CreateProductExtension {
 
     public static ProductAggregate FromCreateProductCommand(this IProductFactory productFactory, CreateProductCommand command) {
         ProductAggregate product = productFactory.Create(command.CategoryId, command.Name, command.Description);
-        IEnumerable<ProductVariantEntity> items = command.Items.Select(item 
+        IEnumerable<ProductVariantEntity> items = command.Items.Select(item
             => productFactory.CreateVariant(product.Id,
                                             item.Stock,
                                             item.Price,

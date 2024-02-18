@@ -1,19 +1,17 @@
-﻿using ecommerce.Application.Common.Guard;
-using ecommerce.Application.Common.Repositories;
+﻿using ecommerce.Application.Common.Repositories;
 using ecommerce.Application.Exceptions.Categories;
 using ecommerce.Domain.Aggregates.CategoryAggregate;
 using ecommerce.Domain.Aggregates.CategoryAggregate.Events;
 using ecommerce.Domain.Aggregates.CategoryAggregate.ValueObjects;
+using ecommerce.Domain.Extensions;
 using MediatR;
 
 namespace ecommerce.Application.Features.Categories.Events;
 internal class CategoryCreatedDomainEventHandler : INotificationHandler<CategoryCreatedDomainEvent> {
     private readonly ICategoryRepository categoryRepository;
-    private readonly IGuardClause guardClause;
 
-    public CategoryCreatedDomainEventHandler(ICategoryRepository categoryRepository, IGuardClause guardClause) {
+    public CategoryCreatedDomainEventHandler(ICategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
-        this.guardClause = guardClause;
     }
 
     public async Task Handle(CategoryCreatedDomainEvent notification, CancellationToken cancellationToken) {
@@ -29,7 +27,10 @@ internal class CategoryCreatedDomainEventHandler : INotificationHandler<Category
             return;
 
         CategoryAggregate? parentCategory = await this.categoryRepository.FindByIdAsync(parentId, cancellationToken);
-        this.guardClause.ThrowIfNull(parentCategory, new CategoryNotFoundException(parentId));
+
+        if(parentCategory.IsNull())
+            throw new CategoryNotFoundException(parentId);
+
         parentCategory.AddSubcategory(id);
         await this.categoryRepository.UpdateAsync(parentCategory, cancellationToken);
     }

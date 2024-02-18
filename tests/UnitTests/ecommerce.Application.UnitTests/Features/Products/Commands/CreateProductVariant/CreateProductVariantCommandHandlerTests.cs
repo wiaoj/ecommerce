@@ -1,5 +1,4 @@
-﻿using ecommerce.Application.Common.Guard;
-using ecommerce.Application.Common.Repositories;
+﻿using ecommerce.Application.Common.Repositories;
 using ecommerce.Application.Features.Products.Commands.CreateProductVariant;
 using ecommerce.Application.UnitTests.Features.Products.Commands.TestUtils;
 using ecommerce.Domain.Aggregates.CategoryAggregate.ValueObjects;
@@ -14,13 +13,11 @@ public sealed class CreateProductVariantCommandHandlerTests {
     private readonly CreateProductVariantCommandHandler handler;
     private readonly IProductRepository productRepository;
     private readonly IProductFactory productFactory;
-    private readonly IGuardClause guardClause;
 
     public CreateProductVariantCommandHandlerTests() {
         this.productRepository = Substitute.For<IProductRepository>();
         this.productFactory = Substitute.For<IProductFactory>();
-        this.guardClause = Substitute.For<IGuardClause>();
-        this.handler = new(this.productFactory, this.productRepository, this.guardClause);
+        this.handler = new(this.productFactory, this.productRepository);
     }
 
     [Theory]

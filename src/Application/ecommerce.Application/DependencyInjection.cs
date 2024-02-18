@@ -1,6 +1,4 @@
-﻿using ecommerce.Application.Common;
-using ecommerce.Application.Common.Behaviours;
-using ecommerce.Application.Common.Guard;
+﻿using ecommerce.Application.Common.Behaviours;
 using ecommerce.Domain.Aggregates.CategoryAggregate;
 using ecommerce.Domain.Aggregates.ProductAggregate;
 using ecommerce.Domain.Aggregates.UserAggregate;
@@ -39,7 +37,6 @@ public static class DependencyInjection {
 
         services.AddFactories();
         services.AddScoped<IDomainEventService, DomainEventService>();
-        services.AddSingleton<IGuardClause, GuardClause>();
         return services;
     }
 

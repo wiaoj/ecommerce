@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using ecommerce.API.ExceptionHandlers;
 using ecommerce.Persistance;
+using Microsoft.AspNetCore.Mvc;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 builder.Host.AddInfrastructureLogging();
@@ -42,6 +43,7 @@ builder.Services.AddResponseCompression(options => {
 
 builder.Services.AddControllers(options => {
     //options.Filters.Add<ExceptionFilter>();  
+    options.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status500InternalServerError));
 });
 
 builder.Services.ConfigureHttpJsonOptions(jsonOptions => {
@@ -60,11 +62,12 @@ builder.Services.AddApplicationServices()
                 .AddInfrastructureServices(builder.Configuration)
                 .AddPersistanceServices(builder.Configuration);
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddEndpointsApiExplorer()
+                .ConfigureApiVersioning();
 
-builder.Services.ConfigureApiVersioning();
+//builder.Services.AddSwaggerGen();
 
+builder.Services.ConfigureSwagger();
 WebApplication app = builder.Build();
 
 app.UseInfrastructureServices();
@@ -89,7 +92,6 @@ if(app.Environment.IsDevelopment()) {
 //        diagnosticContext.Set("RequestScheme", httpContext.Request.Scheme);
 //    };
 //});
-
 app.UseHttpsRedirection();
 app.UseExceptionHandler();
 
@@ -99,6 +101,5 @@ app.UseAuthorization();
 app.UseStaticFiles();
 app.UseResponseCompression();
 app.MapControllers();
-app.UseSwashbuckle(builder.Configuration);
 
 await app.RunAsync(default(CancellationToken));

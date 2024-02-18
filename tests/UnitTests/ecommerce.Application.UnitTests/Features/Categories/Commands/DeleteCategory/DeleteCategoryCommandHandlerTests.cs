@@ -1,6 +1,6 @@
 ﻿using ecommerce.Application.Common.Repositories;
-using ecommerce.Application.Exceptions.Categories;
 using ecommerce.Application.Features.Categories.Commands.DeleteCategory;
+using ecommerce.Application.Features.Categories.Exceptions;
 using ecommerce.Application.UnitTests.Features.Categories.Commands.TestUtils;
 using ecommerce.Domain.Aggregates.CategoryAggregate;
 using ecommerce.Domain.Aggregates.CategoryAggregate.ValueObjects;
@@ -42,7 +42,7 @@ public class DeleteCategoryCommandHandlerTests {
         this.mockCategoryRepository.Setup(repo => repo.FindByIdAsync(CategoryId.Create(command.Id), It.IsAny<CancellationToken>()))
             .ReturnsAsync(() => null);
 
- 
+
         // Act & Assert
         await Assert.ThrowsAsync<CategoryNotFoundException>(() => this.handler.Handle(command, It.IsAny<CancellationToken>()));
     }

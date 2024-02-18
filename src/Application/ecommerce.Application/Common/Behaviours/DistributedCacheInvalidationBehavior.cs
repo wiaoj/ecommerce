@@ -16,8 +16,8 @@ internal sealed class DistributedCacheInvalidationBehavior<TRequest, TResponse>
     }
 
     public async Task Process(TRequest request, TResponse response, CancellationToken cancellationToken) {
-        this.logger.LogDebug("Invalidating cache for {CacheKey}", request.CacheKey);
-        await this.cacheKeyService.RemoveKeyAsync(request.CacheKey, cancellationToken);
-        this.logger.LogDebug("Invalidated cache for {CacheKey}", request.CacheKey);
+        this.logger.LogDebug("Invalidating cache for {CacheKey}", request.CacheGroupKey);
+        await this.cacheKeyService.RemoveKeyAsync(request.CacheGroupKey, cancellationToken);
+        this.logger.LogDebug("Invalidated cache for {CacheKey}", request.CacheGroupKey);
     }
 }

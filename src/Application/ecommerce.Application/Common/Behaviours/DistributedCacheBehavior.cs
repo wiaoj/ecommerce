@@ -37,9 +37,9 @@ internal sealed class DistributedCacheBehavior<TRequest, TResponse> : IPipelineB
         await this.applicationDistributedCache.SetAsync(cacheKey, response, TimeSpan.FromMinutes(1), cancellationToken);
         this.logger.LogDebug("Response for key: {CacheKey} cached successfully for 1 minute.", cacheKey);
 
-        await this.cacheKeyService.AddKeyAsync(request.CacheKey, cacheKey, cancellationToken);
+        await this.cacheKeyService.AddKeyAsync(request.CacheGroupKey, cacheKey, cancellationToken);
         this.logger.LogDebug("Cache key management updated. Request key: {RequestCacheKey} associated with cache key: {CacheKey}.",
-                                   request.CacheKey,
+                                   request.CacheGroupKey,
                                    cacheKey);
 
         return response;

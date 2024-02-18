@@ -1,4 +1,6 @@
-﻿using ecommerce.Domain.Aggregates.CategoryAggregate.Exceptions;
+﻿using ecommerce.Domain.Aggregates.CategoryAggregate.Constants;
+using ecommerce.Domain.Aggregates.CategoryAggregate.Exceptions;
+using ecommerce.Domain.Extensions;
 
 namespace ecommerce.Domain.Aggregates.CategoryAggregate.ValueObjects;
 public sealed record CategoryName {
@@ -6,10 +8,10 @@ public sealed record CategoryName {
 
     private CategoryName() { }
     internal CategoryName(String value) {
-        if(string.IsNullOrWhiteSpace(value))
+        if(value.IsNullOrWhiteSpaces() || CategoryConstants.Regexes.CategoryNameRegex().IsMatch(value).IsFalse())
             throw new InvalidCategoryNameException(value);
-        value = value.Trim();
-        this.Value = value;
+
+        this.Value = value.Trim();
     }
 
     //public static CategoryName Create(String value) {

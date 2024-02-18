@@ -22,4 +22,8 @@ public sealed record CategoryId : AggregateRootId<Guid> {
     public static implicit operator Guid(CategoryId id) {
         return id.Value;
     }
+
+    public override String ToString() {
+        return this.Value.ToString();
+    }
 }

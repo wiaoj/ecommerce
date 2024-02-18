@@ -3,7 +3,6 @@ using ecommerce.Domain.Aggregates.CategoryAggregate.Exceptions;
 using ecommerce.Domain.Aggregates.CategoryAggregate.ValueObjects;
 using ecommerce.Domain.Aggregates.ProductAggregate.ValueObjects;
 using ecommerce.Domain.Common.Models;
-using ecommerce.Domain.Exceptions;
 using ecommerce.Domain.Extensions;
 
 namespace ecommerce.Domain.Aggregates.CategoryAggregate;
@@ -95,19 +94,6 @@ public sealed class CategoryAggregate : AggregateRoot<CategoryId, Guid> {
     }
 
     /// <summary>
-    /// Adds multiple child categories to the current category.
-    /// </summary>
-    /// <param name="categoryIds">A collection of child category IDs to add.</param>
-    /// <exception cref="SelfReferencingCategoryException" /> 
-    /// <exception cref="SubcategoryAlreadyExistsException" /> 
-    public void AddSubcategory(IEnumerable<CategoryId> categoryIds) {
-        ArgumentNullException.ThrowIfNull(categoryIds);
-
-        foreach(CategoryId categoryId in categoryIds)
-            AddSubcategory(categoryId);
-    }
-
-    /// <summary>
     /// Removes a child category from the current category.
     /// </summary>
     /// <param name="categoryId">The ID of the child category to remove.</param>
@@ -119,18 +105,6 @@ public sealed class CategoryAggregate : AggregateRoot<CategoryId, Guid> {
             throw new SubcategoryNotFoundException(categoryId);
 
         RaiseDomainEvent(new SubcategoryRemovedDomainEvent(this.Id, categoryId));
-    }
-
-    /// <summary>
-    /// Removes multiple child categories from the current category.
-    /// </summary>
-    /// <param name="categoryIds">A collection of child category IDs to remove.</param>
-    /// <exception cref="SubcategoryNotFoundException" />
-    public void RemoveSubcategory(IEnumerable<CategoryId> categoryIds) {
-        ArgumentNullException.ThrowIfNull(categoryIds);
-
-        foreach(CategoryId categoryId in categoryIds)
-            RemoveSubcategory(categoryId);
     }
 
     /// <summary>

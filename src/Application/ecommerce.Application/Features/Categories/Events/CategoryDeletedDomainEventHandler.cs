@@ -1,5 +1,5 @@
 ﻿using ecommerce.Application.Common.Repositories;
-using ecommerce.Application.Exceptions.Categories;
+using ecommerce.Application.Features.Categories.Exceptions;
 using ecommerce.Domain.Aggregates.CategoryAggregate;
 using ecommerce.Domain.Aggregates.CategoryAggregate.Events;
 using ecommerce.Domain.Extensions;
@@ -15,7 +15,7 @@ internal sealed class CategoryDeletedDomainEventHandler : INotificationHandler<C
 
     public Task Handle(CategoryDeletedDomainEvent notification, CancellationToken cancellationToken) {
         Task[] tasks = [RemoveDeletedCategoryFromParent(notification, cancellationToken),
-                        DetachChildrenFromDeletedCategory(notification, cancellationToken)];
+            DetachChildrenFromDeletedCategory(notification, cancellationToken)];
         return Task.WhenAll(tasks);
     }
 

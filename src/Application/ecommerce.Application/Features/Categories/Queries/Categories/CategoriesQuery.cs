@@ -3,5 +3,5 @@ using MediatR;
 
 namespace ecommerce.Application.Features.Categories.Queries.Categories;
 public sealed record CategoriesQuery() : IRequest<IEnumerable<CategoriesResult>>, IHasDistributedCache {
-    public String CacheKey => Constants.Categories.CacheKeyRegistry;
+    public String CacheGroupKey => CategoryApplicationConstants.CacheGroupKeyRegistry;
 }

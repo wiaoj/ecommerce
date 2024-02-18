@@ -1,5 +1,5 @@
 ﻿using ecommerce.Application.Common.Repositories;
-using ecommerce.Application.Exceptions.Categories;
+using ecommerce.Application.Features.Categories.Exceptions;
 using ecommerce.Domain.Aggregates.CategoryAggregate;
 using ecommerce.Domain.Aggregates.CategoryAggregate.ValueObjects;
 using ecommerce.Domain.Extensions;
@@ -17,9 +17,9 @@ internal sealed class DeleteCategoryCommandHandler : IRequestHandler<DeleteCateg
         CategoryId id = CategoryId.Create(request.Id);
         CategoryAggregate? category = await this.categoryRepository.FindByIdAsync(id, cancellationToken);
 
-        if(category.IsNull()) 
+        if(category.IsNull())
             throw new CategoryNotFoundException(request.Id);
-        
+
         category.Delete();
         await this.categoryRepository.DeleteAsync(category, cancellationToken);
     }

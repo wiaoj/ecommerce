@@ -3,18 +3,16 @@ using MediatR;
 
 namespace ecommerce.Application.Features.Categories.Commands.CreateCategory;
 public sealed record CreateCategoryCommand(
-    Guid RequestId,
     Guid? ParentCategoryId,
     String Name)
     : IRequest<CreateCategoryCommandResult>,
       IAuthorizeRequest,
       IHasTransaction,
       IHasEvent,
-      IHasIdemponency,
       IHasCacheInvalidation {
-    public String CacheKey => Constants.Categories.CacheKeyRegistry;
+    public String CacheGroupKey => CategoryApplicationConstants.CacheGroupKeyRegistry;
 
     public IEnumerable<String> Roles => ["Admin"];
 
-    public IEnumerable<String> Permissions => [Constants.Categories.Permissions.Create];
+    public IEnumerable<String> Permissions => [CategoryApplicationConstants.Permissions.Create];
 }

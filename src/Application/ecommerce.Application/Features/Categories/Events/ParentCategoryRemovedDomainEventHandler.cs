@@ -1,5 +1,5 @@
 ﻿using ecommerce.Application.Common.Repositories;
-using ecommerce.Application.Exceptions.Categories;
+using ecommerce.Application.Features.Categories.Exceptions;
 using ecommerce.Domain.Aggregates.CategoryAggregate;
 using ecommerce.Domain.Aggregates.CategoryAggregate.Events;
 using ecommerce.Domain.Extensions;

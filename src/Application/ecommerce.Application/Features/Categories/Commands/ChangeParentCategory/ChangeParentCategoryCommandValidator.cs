@@ -1,18 +1,15 @@
 ﻿using ecommerce.Application.Common.Repositories;
-using ecommerce.Application.Validators.CategoryValidators;
+using ecommerce.Application.Features.Categories.ValidatorExtensions;
 using ecommerce.Domain.Aggregates.CategoryAggregate;
 using FluentValidation;
 
 namespace ecommerce.Application.Features.Categories.Commands.ChangeParentCategory;
 public sealed class ChangeParentCategoryCommandValidator : AbstractValidator<ChangeParentCategoryCommand> {
     public ChangeParentCategoryCommandValidator(ICategoryRepository categoryRepository, ICategoryFactory categoryFactory) {
-        RuleFor(x => x.Id)
-            .NotNull()
-            .NotEmpty();
+        RuleFor(x => x.Id).CategoryIdMustBeValid();
 
         RuleFor(x => x.ParentCategoryId)
-            .NotNull()
-            .NotEmpty()
-            .CategoryExist(categoryRepository, categoryFactory);
+            .CategoryParentIdMustBeValid()
+            .CategoryMustExist(categoryRepository, categoryFactory);
     }
 }

@@ -1,8 +1,7 @@
 ﻿using ecommerce.Application.Common.Repositories;
-using ecommerce.Application.Validators.CategoryValidators;
+using ecommerce.Application.Features.Categories.ValidatorExtensions;
 using ecommerce.Application.Validators.VariantValidators;
 using ecommerce.Domain.Aggregates.CategoryAggregate;
-using ecommerce.Domain.Aggregates.VariantAggregate.ValueObjects;
 using FluentValidation;
 
 namespace ecommerce.Application.Features.Variants.Commands.CreateVariantOption;
@@ -11,7 +10,7 @@ public sealed class CreateVariantOptionCommandValidator : AbstractValidator<Crea
                                                IVariantRepository variantRepository,
                                                ICategoryFactory categoryFactory) {
         RuleFor(x => x.CategoryId)
-            .CategoryExist(categoryRepository, categoryFactory);
+            .CategoryMustExist(categoryRepository, categoryFactory);
 
         RuleFor(x => x.VariantId)
             .VariantExist(variantRepository);

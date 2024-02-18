@@ -1,5 +1,5 @@
 ﻿using ecommerce.Application.Common.Repositories;
-using ecommerce.Application.Validators.CategoryValidators;
+using ecommerce.Application.Features.Categories.ValidatorExtensions;
 using ecommerce.Application.Validators.VariantValidators;
 using ecommerce.Domain.Aggregates.CategoryAggregate;
 using FluentValidation;
@@ -11,7 +11,7 @@ public sealed class CreateVariantCommandValidator : AbstractValidator<CreateVari
                                          ICategoryFactory categoryFactory) {
         RuleFor(x => x.CategoryId)
             .NotNull()
-            .CategoryExist(categoryRepository, categoryFactory);
+            .CategoryMustExist(categoryRepository, categoryFactory);
 
         RuleFor(x => x.Name)
             .NotEmpty()

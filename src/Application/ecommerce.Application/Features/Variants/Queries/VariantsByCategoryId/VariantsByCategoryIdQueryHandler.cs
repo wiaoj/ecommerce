@@ -13,12 +13,12 @@ internal sealed class VariantsByCategoryIdQueryHandler : IRequestHandler<Variant
 
     public async Task<IEnumerable<VariantsByCategoryIdResponse>> Handle(VariantsByCategoryIdQuery request,
                                                                         CancellationToken cancellationToken) {
-        IEnumerable<VariantAggregate> variants = 
+        IEnumerable<VariantAggregate> variants =
             await this.variantRepository.FindByCategoryId(CategoryId.Create(request.CategoryId), cancellationToken);
-        return variants.Select(variant 
+        return variants.Select(variant
             => new VariantsByCategoryIdResponse(variant.Id.Value,
                                                 variant.Name,
-                                                variant.Options.Select(option 
+                                                variant.Options.Select(option
                                                     => new VariantsByCategoryIdOptions(option.Id.Value,
                                                                                        option.Value.Value)).ToList()))
             .ToList();

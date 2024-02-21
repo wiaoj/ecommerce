@@ -6,7 +6,8 @@ public sealed record ProductVariantPrice {
     public Decimal Value { get; }
 
     private ProductVariantPrice() { }
-    private ProductVariantPrice(Decimal value) {
+    internal ProductVariantPrice(Decimal value) {
+        ArgumentNullException.ThrowIfNull(value);
         this.Value = value;
     }
 
@@ -20,5 +21,9 @@ public sealed record ProductVariantPrice {
 
     public static implicit operator ProductVariantPrice(Decimal price) {
         return new(price);
+    }
+
+    public sealed override String ToString() {
+        return this.Value.ToString();
     }
 }

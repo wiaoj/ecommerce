@@ -11,7 +11,7 @@ public partial class CategoryAggregateTests {
     public void AddProduct_WhenNewProductId_ShouldAdd() {
         // Arrange
         CategoryAggregate category = CategoryTestFactory.CreateCategory();
-        ProductId productId = ProductTestFactory.CreateValidProductId();
+        ProductId productId = ProductTestFactory.CreateProductId();
 
         // Act
         category.AddProduct(productId);
@@ -36,7 +36,7 @@ public partial class CategoryAggregateTests {
     public void AddProduct_WhenProductAdded_RaisesProductAddedToCategoryDomainEvent() {
         // Arrange
         CategoryAggregate category = CategoryTestFactory.CreateCategory();
-        ProductId existingProductId = ProductTestFactory.CreateValidProductId();
+        ProductId existingProductId = ProductTestFactory.CreateProductId();
 
         // Act
         category.AddProduct(existingProductId);

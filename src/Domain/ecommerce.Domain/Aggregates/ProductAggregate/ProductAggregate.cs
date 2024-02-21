@@ -21,6 +21,11 @@ public sealed class ProductAggregate : AggregateRoot<ProductId, Guid> {
                               ProductName productName,
                               ProductDescription productDescription,
                               List<ProductVariantEntity> productVariants) : base(productId) {
+        ArgumentNullException.ThrowIfNull(productId);
+        ArgumentNullException.ThrowIfNull(categoryId);
+        ArgumentNullException.ThrowIfNull(productName);
+        ArgumentNullException.ThrowIfNull(productDescription);
+        ArgumentNullException.ThrowIfNull(productVariants);
         this.CategoryId = categoryId;
         this.Name = productName;
         this.Description = productDescription;
@@ -37,6 +42,12 @@ public sealed class ProductAggregate : AggregateRoot<ProductId, Guid> {
         return this;
     }
 
+    /// <summary>
+    /// <list type="table">
+    /// Raises; <br />
+    /// <see cref="ProductDeletedDomainEvent"/>
+    /// </list>
+    /// </summary>
     public override void Delete() {
         RaiseDomainEvent(new ProductDeletedDomainEvent());
     }

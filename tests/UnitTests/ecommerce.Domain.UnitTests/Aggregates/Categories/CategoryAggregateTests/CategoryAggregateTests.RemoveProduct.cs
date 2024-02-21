@@ -24,7 +24,7 @@ public partial class CategoryAggregateTests {
     public void RemoveProduct_WhenProductIdDoesNotExist_ThrowsProductNotInCategoryException() {
         // Arrange
         CategoryAggregate category = CategoryTestFactory.CreateCategory();
-        ProductId nonExistentProductId = ProductTestFactory.CreateValidProductId();
+        ProductId nonExistentProductId = ProductTestFactory.CreateProductId();
 
         // Act & Assert
         category.Invoking(x => x.RemoveProduct(nonExistentProductId))

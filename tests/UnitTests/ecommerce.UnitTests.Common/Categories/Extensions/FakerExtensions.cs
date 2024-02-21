@@ -1,8 +1,6 @@
 ﻿using Bogus;
 using ecommerce.Domain.Aggregates.CategoryAggregate;
-using ecommerce.Domain.Aggregates.CategoryAggregate.ValueObjects;
 using ecommerce.UnitTests.Common.Products;
-using System;
 
 namespace ecommerce.UnitTests.Common.Categories.Extensions;
 internal static class FakerExtensions {
@@ -15,7 +13,7 @@ internal static class FakerExtensions {
             CategoryTestFactory.CreateCategoryId(),
             CategoryTestFactory.CreateCategoryName(faker.Commerce.Categories(1)[0]),
             [.. Enumerable.Range(0, childCategoryCount).Select(_ => CategoryTestFactory.CreateCategoryId(faker.Random.Guid()))],
-            [.. Enumerable.Range(0, productCount).Select(_ => ProductTestFactory.CreateValidProductId(faker.Random.Guid()))]);
+            [.. Enumerable.Range(0, productCount).Select(_ => ProductTestFactory.CreateProductId(faker.Random.Guid()))]);
         return faker.CustomInstantiator(func);
     }
 }

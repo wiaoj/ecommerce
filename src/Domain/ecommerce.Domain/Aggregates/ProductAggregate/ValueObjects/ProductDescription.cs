@@ -26,10 +26,9 @@ public sealed record ProductDescription {
     }
 
     private void ValidateLength(String value) {
-        Boolean isLengthInValid =
-            value.Length is < ProductConstants.Rules.Description.MinimumLength
-            or > ProductConstants.Rules.Description.MaximumLength;
-        isLengthInValid.IfTrueThrow<DescriptionLengthOutOfRangeException>();
+        Boolean isLengthInValid = value.Length is < ProductConstants.Rules.Description.MinimumLength
+                                               or > ProductConstants.Rules.Description.MaximumLength;
+        isLengthInValid.IfTrueThrow<ProductDescriptionLengthOutOfRangeException>();
     }
 
     private void ValidateForOnlyLettersAndDigits(String value) {

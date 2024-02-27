@@ -1,32 +1,32 @@
 ﻿using ecommerce.Application.Features.Products.Commands.CreateProduct;
+using ecommerce.Domain.Aggregates.CategoryAggregate;
+using ecommerce.Domain.Aggregates.CategoryAggregate.ValueObjects;
 using ecommerce.Domain.Aggregates.ProductAggregate;
 using ecommerce.Domain.Aggregates.ProductAggregate.Entities;
+using ecommerce.Domain.Aggregates.ProductAggregate.ValueObjects;
 
 namespace ecommerce.Application.Features.Products.MappingExtensions;
 internal static class CreateProductExtension {
-    public static CreateProductCommandResponse ToCreateProductResponse(this ProductAggregate product) {
-        return new(product.Id,
-                   product.CategoryId,
-                   product.Name.Value,
-                   product.Description.Value,
-                   product.Variants.Select(CreateProductItemCommandResponse).ToList());
+    public static CreateProductCommandResult ToCreateProductResponse(this ProductAggregate product) {
+        return new(product.Id.Value);
     }
 
-    private static CreateProductItemCommandResponse CreateProductItemCommandResponse(ProductVariantEntity item) {
-        return new(item.Id.Value,
-                   item.SKU,
-                   item.Price,
-                   item.OptionIds.Select(option => option.Value).ToList());
-    }
-
-    public static ProductAggregate FromCreateProductCommand(this IProductFactory productFactory, CreateProductCommand command) {
-        ProductAggregate product = productFactory.Create(command.CategoryId, command.Name, command.Description);
-        IEnumerable<ProductVariantEntity> items = command.Items.Select(item
-            => productFactory.CreateVariant(product.Id,
-                                            item.Stock,
-                                            item.Price,
-                                            item.OptionIds));
+    public static ProductAggregate FromCreateProductCommand(this IProductFactory productFactory,
+                                                            ICategoryFactory categoryFactory,
+                                                            CreateProductCommand command) {
+        CategoryId categoryId = categoryFactory.CreateId(command.CategoryId);
+        ProductName name = productFactory.CreateProductName(command.Name);
+        ProductDescription description = productFactory.CreateProductDescription(command.Description);
+        ProductAggregate product = productFactory.Create(categoryId, name, description);
+        IEnumerable<ProductVariantEntity> items = command.Items.Select(item => productFactory.CreateVariant(product.Id, item));
         product.AddVariant(items);
         return product;
+    }
+
+    private static ProductVariantEntity CreateVariant(this IProductFactory productFactory,
+                                                      ProductId productId,
+                                                      CreateProductItemCommand command) {
+
+        return productFactory.CreateVariant(productId, command.Stock, command.Price, command.OptionIds);
     }
 }

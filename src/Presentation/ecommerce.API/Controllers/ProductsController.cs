@@ -20,8 +20,8 @@ public class ProductsController : ControllerBase {
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateProductRequest request, CancellationToken cancellationToken) {
         CreateProductCommand command = request.ToCommand();
-        CreateProductCommandResponse response = await this.sender.Send(command, cancellationToken);
-        return Ok(response.ToResponse());
+        CreateProductCommandResult result = await this.sender.Send(command, cancellationToken);
+        return CreatedAtAction(nameof(this.GetById), new { result.Id }, result.ToResponse());
     }
 
     [HttpPost]
@@ -30,5 +30,11 @@ public class ProductsController : ControllerBase {
         CreateProductVariantCommand command = request.ToCommand();
         await this.sender.Send(command, cancellationToken);
         return Ok();
+    }
+
+    [HttpGet]
+    [Route("{id}")]
+    public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken) {
+        return Ok(id);
     }
 }

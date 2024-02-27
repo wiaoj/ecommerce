@@ -25,7 +25,7 @@ public sealed class CreateProductCommandHandlerTests
     public async Task HandleCreateProductCommand_WhenProductIsValid_ShouldCreateAndReturnProduct(CreateProductCommand command)
     {
         // Act 
-        CreateProductCommandResponse result = await handler.Handle(command, It.IsAny<CancellationToken>());
+        CreateProductCommandResult result = await handler.Handle(command, It.IsAny<CancellationToken>());
 
         // Assert 
         Assert.NotNull(result);

@@ -25,5 +25,5 @@ public partial class External {
         }
     }
 
-    public sealed record CreatedProductResponse(Guid Id, Guid CategoryId);
+    public sealed record CreatedProductResponse(Guid Id);
 }
